@@ -5,10 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dream Shop Designer</title>
+<title>Garage Dreaming | Inspiration for Shops, Garages, Hangars & Man Caves</title>
+
+<meta name="description" content="Browse dream shops, garages, hangars, workshops, golf simulator buildings, and man caves. Discover layouts, floorplans, design ideas, and inspiration for your next project.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 
@@ -16,6 +18,7 @@
     --bg:#08111d;
     --bg2:#0d1a2b;
     --panel:#111f31;
+    --panel-hover:#17283f;
     --accent:#ff5c1b;
     --text:#ffffff;
     --muted:#9db0c8;
@@ -28,10 +31,15 @@
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
     background:var(--bg);
     color:var(--text);
     font-family:'Inter',sans-serif;
+    line-height:1.6;
 }
 
 .container{
@@ -42,10 +50,10 @@ body{
 header{
     position:sticky;
     top:0;
+    z-index:999;
     background:rgba(8,17,29,.95);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
-    z-index:100;
 }
 
 .nav{
@@ -60,6 +68,7 @@ header{
     font-size:2rem;
     font-weight:700;
     text-transform:uppercase;
+    letter-spacing:1px;
 }
 
 .logo span{
@@ -74,10 +83,15 @@ header{
 .nav-links a{
     color:white;
     text-decoration:none;
+    font-weight:500;
+}
+
+.nav-links a:hover{
+    color:var(--accent);
 }
 
 .hero{
-    padding:90px 0;
+    padding:100px 0;
 }
 
 .hero-grid{
@@ -89,8 +103,8 @@ header{
 
 .hero h1{
     font-family:'Oswald',sans-serif;
-    font-size:5rem;
-    line-height:.95;
+    font-size:6rem;
+    line-height:.9;
     margin-bottom:20px;
 }
 
@@ -98,64 +112,127 @@ header{
     color:var(--accent);
 }
 
-.hero p{
-    color:var(--muted);
-    font-size:1.2rem;
-    line-height:1.8;
+.hero-tagline{
+    font-size:1.6rem;
+    font-weight:600;
+    margin-bottom:15px;
 }
 
-.hero-image{
-    height:500px;
-    border-radius:16px;
-    overflow:hidden;
-    background:url("images/hero-shop.jpg") center center/cover;
+.hero p{
+    color:var(--muted);
+    font-size:1.15rem;
+    max-width:700px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:15px;
+    margin-top:35px;
+    flex-wrap:wrap;
 }
 
 .btn{
     display:inline-block;
-    background:var(--accent);
-    color:white;
     text-decoration:none;
     padding:16px 28px;
-    margin-top:30px;
     border-radius:8px;
     font-weight:600;
 }
 
+.btn-primary{
+    background:var(--accent);
+    color:white;
+}
+
+.btn-secondary{
+    border:1px solid var(--border);
+    color:white;
+}
+
+.hero-image{
+    height:550px;
+    border-radius:16px;
+    background:url('images/hero.jpg') center center/cover;
+    border:1px solid var(--border);
+}
+
 .section{
-    padding:80px 0;
+    padding:90px 0;
 }
 
 .section-title{
     text-align:center;
     font-family:'Oswald',sans-serif;
     font-size:3rem;
-    margin-bottom:15px;
+    margin-bottom:10px;
 }
 
 .section-sub{
     text-align:center;
     color:var(--muted);
-    margin-bottom:50px;
+    max-width:800px;
+    margin:0 auto 50px;
+}
+
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:25px;
+}
+
+.gallery-item{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.gallery-item:hover{
+    transform:translateY(-6px);
+    background:var(--panel-hover);
+}
+
+.gallery-image{
+    height:240px;
+    background:#22344d;
+}
+
+.gallery-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.gallery-info{
+    padding:20px;
+}
+
+.gallery-info h3{
+    margin-bottom:8px;
+}
+
+.gallery-info p{
+    color:var(--muted);
 }
 
 .category-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:25px;
 }
 
 .card{
     background:var(--panel);
     border:1px solid var(--border);
-    padding:30px;
     border-radius:14px;
+    padding:30px;
     transition:.3s;
 }
 
 .card:hover{
-    transform:translateY(-5px);
     border-color:var(--accent);
+    transform:translateY(-4px);
 }
 
 .card h3{
@@ -164,62 +241,72 @@ header{
 
 .card p{
     color:var(--muted);
-    font-size:.95rem;
-}
-
-.gallery{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-    gap:20px;
-}
-
-.gallery-item{
-    background:var(--panel);
-    border-radius:12px;
-    overflow:hidden;
-    border:1px solid var(--border);
-}
-
-.gallery-image{
-    height:220px;
-    background:#23364f;
-}
-
-.gallery-info{
-    padding:20px;
-}
-
-.gallery-info h4{
-    margin-bottom:8px;
-}
-
-.gallery-info p{
-    color:var(--muted);
 }
 
 .floorplans{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
     gap:25px;
 }
 
 .plan{
     background:var(--panel);
     border:1px solid var(--border);
-    border-radius:12px;
+    border-radius:14px;
     padding:25px;
+}
+
+.plan h3{
+    margin-bottom:15px;
 }
 
 .plan pre{
     color:#8fd0ff;
-    font-size:.8rem;
-    margin-top:15px;
     overflow:auto;
+    font-size:.8rem;
+}
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.feature{
+    background:var(--panel);
+    border-radius:14px;
+    border:1px solid var(--border);
+    padding:25px;
+}
+
+.feature h3{
+    margin-bottom:10px;
+}
+
+.feature p{
+    color:var(--muted);
+}
+
+.cta{
+    text-align:center;
+    background:linear-gradient(180deg,var(--bg2),var(--panel));
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+}
+
+.cta h2{
+    font-family:'Oswald',sans-serif;
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+.cta p{
+    color:var(--muted);
+    margin-bottom:30px;
 }
 
 footer{
     padding:60px 0;
-    border-top:1px solid var(--border);
     text-align:center;
     color:var(--muted);
 }
@@ -231,11 +318,15 @@ footer{
 }
 
 .hero h1{
-    font-size:3.5rem;
+    font-size:4rem;
 }
 
 .nav-links{
     display:none;
+}
+
+.hero-image{
+    height:350px;
 }
 
 }
@@ -245,24 +336,26 @@ footer{
 <body>
 
 <header>
+
 <div class="container nav">
 
 <div class="logo">
-Dream Shop <span>Designer</span>
+Garage <span>Dreaming</span>
 </div>
 
 <nav class="nav-links">
-<a href="#">Inspiration</a>
-<a href="#">Floorplans</a>
-<a href="#">Design Studio</a>
-<a href="#">Features</a>
-<a href="#">Community</a>
+<a href="#inspiration">Inspiration</a>
+<a href="#floorplans">Floorplans</a>
+<a href="#ideas">Design Ideas</a>
+<a href="#community">Submit Build</a>
 </nav>
 
 </div>
+
 </header>
 
 <section class="hero">
+
 <div class="container">
 
 <div class="hero-grid">
@@ -270,17 +363,24 @@ Dream Shop <span>Designer</span>
 <div>
 
 <h1>
-DESIGN YOUR<br>
-<span>DREAM SHOP</span>
+GARAGE<br>
+<span>DREAMING</span>
 </h1>
 
+<div class="hero-tagline">
+Where dream garages take shape.
+</div>
+
 <p>
-Explore real-world shop designs, compare layouts,
-experiment with floorplans, and build the ultimate
-garage, workshop, golf simulator, hangar, or man cave.
+Explore dream shops, garages, workshops, hangars, golf simulator buildings,
+man caves, and shop houses from across the country. Save ideas, compare layouts,
+discover floorplans, and start planning the ultimate space.
 </p>
 
-<a href="#" class="btn">Start Exploring</a>
+<div class="hero-buttons">
+<a href="#inspiration" class="btn btn-primary">Browse Inspiration</a>
+<a href="#floorplans" class="btn btn-secondary">View Floorplans</a>
+</div>
 
 </div>
 
@@ -289,50 +389,125 @@ garage, workshop, golf simulator, hangar, or man cave.
 </div>
 
 </div>
+
+</section>
+
+<section class="section" id="inspiration">
+
+<div class="container">
+
+<h2 class="section-title">Featured Builds</h2>
+
+<p class="section-sub">
+Real-world garages, shops, hangars, and dream spaces from builders and owners.
+</p>
+
+<div class="gallery">
+
+<div class="gallery-item">
+<div class="gallery-image"></div>
+<div class="gallery-info">
+<h3>40x60 Modern Black Shop</h3>
+<p>16' Walls • 3 Bays • Covered Porch</p>
+</div>
+</div>
+
+<div class="gallery-item">
+<div class="gallery-image"></div>
+<div class="gallery-info">
+<h3>50x80 Dream Shop</h3>
+<p>Lift Ready • Office • Golf Simulator</p>
+</div>
+</div>
+
+<div class="gallery-item">
+<div class="gallery-image"></div>
+<div class="gallery-info">
+<h3>Lake Toy Garage</h3>
+<p>Boat Storage • Workshop • Loft</p>
+</div>
+</div>
+
+<div class="gallery-item">
+<div class="gallery-image"></div>
+<div class="gallery-info">
+<h3>Aviation Hangar</h3>
+<p>Aircraft Storage • Office • Lounge</p>
+</div>
+</div>
+
+<div class="gallery-item">
+<div class="gallery-image"></div>
+<div class="gallery-info">
+<h3>Woodworking Shop</h3>
+<p>Dedicated Workspace • Dust Collection</p>
+</div>
+</div>
+
+<div class="gallery-item">
+<div class="gallery-image"></div>
+<div class="gallery-info">
+<h3>Shop House</h3>
+<p>Living Quarters • Shop Space • Porch</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </section>
 
 <section class="section">
 
 <div class="container">
 
-<h2 class="section-title">
-Browse By Purpose
-</h2>
+<h2 class="section-title">Browse By Dream</h2>
 
 <p class="section-sub">
-Find inspiration based on how you actually use your space.
+Find inspiration based on how you want to use your space.
 </p>
 
 <div class="category-grid">
 
 <div class="card">
-<h3>Vehicle Shops</h3>
-<p>Lifts, storage, detailing bays and tool walls.</p>
+<h3>Car Garages</h3>
+<p>Lifts, detailing bays, storage systems and dream car collections.</p>
 </div>
 
 <div class="card">
-<h3>Woodworking</h3>
-<p>Dust collection, workbenches and lumber storage.</p>
+<h3>Dream Shops</h3>
+<p>General purpose workshops built for projects and hobbies.</p>
 </div>
 
 <div class="card">
-<h3>Boat Storage</h3>
-<p>Lake-ready shops built around big toys.</p>
+<h3>Boat Garages</h3>
+<p>Designed around lake life, toys and large boat storage.</p>
 </div>
 
 <div class="card">
-<h3>Golf Simulator</h3>
-<p>Entertainment spaces and simulator layouts.</p>
+<h3>Golf Simulator Buildings</h3>
+<p>Entertainment-focused layouts and indoor golf spaces.</p>
 </div>
 
 <div class="card">
-<h3>Hangars</h3>
-<p>Aircraft storage and pilot dream spaces.</p>
+<h3>Woodworking Shops</h3>
+<p>Purpose-built workspaces for craftsmen and makers.</p>
 </div>
 
 <div class="card">
-<h3>Shopdominiums</h3>
-<p>Work space plus lofts, offices and living areas.</p>
+<h3>Aviation Hangars</h3>
+<p>Aircraft storage, pilot lounges and workshop combinations.</p>
+</div>
+
+<div class="card">
+<h3>Shop Houses</h3>
+<p>Combining living space with large workshops and garages.</p>
+</div>
+
+<div class="card">
+<h3>Barndominiums</h3>
+<p>Large open structures designed for work and lifestyle.</p>
 </div>
 
 </div>
@@ -341,16 +516,14 @@ Find inspiration based on how you actually use your space.
 
 </section>
 
-<section class="section">
+<section class="section" id="floorplans">
 
 <div class="container">
 
-<h2 class="section-title">
-Popular Floorplans
-</h2>
+<h2 class="section-title">Popular Floorplans</h2>
 
 <p class="section-sub">
-Real layouts people are building today.
+Layouts people are building, saving and modifying.
 </p>
 
 <div class="floorplans">
@@ -362,14 +535,14 @@ Real layouts people are building today.
 <pre>
 -----------------------------------
 |                                 |
-|       MAIN SHOP AREA            |
+|         MAIN SHOP              |
 |                                 |
-|   Lift             Lift         |
+| Lift                 Lift       |
 |                                 |
-|--------------------- Garage ----|
-|     Woodshop                  |
+|-------------------------------|
+|      WOODSHOP                 |
 |                               |
-| Bath    Stairs     Office     |
+| Bath  Stairs   Office         |
 -----------------------------------
 </pre>
 
@@ -380,14 +553,14 @@ Real layouts people are building today.
 <h3>50x80 Dream Shop</h3>
 
 <pre>
--------------------------------------
-|                                   |
-|  Lift      Lift      Boat Bay     |
-|                                   |
-|                                   |
-|-----------------------------------|
-| Office | Bar | Golf Simulator     |
--------------------------------------
+-----------------------------------
+| Lift   Lift    Boat Storage     |
+|                                 |
+|                                 |
+|                                 |
+|--------------------------------|
+| Office  Bar  Golf Simulator    |
+-----------------------------------
 </pre>
 
 </div>
@@ -398,45 +571,66 @@ Real layouts people are building today.
 
 </section>
 
-<section class="section">
+<section class="section" id="ideas">
 
 <div class="container">
 
-<h2 class="section-title">
-Inspiration Gallery
-</h2>
+<h2 class="section-title">Design Ideas</h2>
 
 <p class="section-sub">
-Browse real shops and save ideas for later.
+Explore the features people obsess over when planning their dream garage.
 </p>
 
-<div class="gallery">
+<div class="feature-grid">
 
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h4>40x60 Black Modern Shop</h4>
-<p>16' walls • 3 doors • covered porch</p>
-</div>
+<div class="feature">
+<h3>Wall Height Comparisons</h3>
+<p>12', 14', 16', and 18' walls shown side-by-side.</p>
 </div>
 
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h4>Red Shop Barn</h4>
-<p>Workshop • equipment storage</p>
-</div>
+<div class="feature">
+<h3>Door Size Explorer</h3>
+<p>Compare overhead door widths and heights using real examples.</p>
 </div>
 
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h4>Lake Toy Garage</h4>
-<p>Boat storage • loft • office</p>
+<div class="feature">
+<h3>Lift-Friendly Layouts</h3>
+<p>See how builders position lifts, workbenches and storage.</p>
 </div>
+
+<div class="feature">
+<h3>Office & Loft Concepts</h3>
+<p>Browse ideas for offices, lofts, lounges and future apartments.</p>
+</div>
+
+<div class="feature">
+<h3>Golf Simulator Rooms</h3>
+<p>Ceiling heights, dimensions and projector placement ideas.</p>
+</div>
+
+<div class="feature">
+<h3>Boat & RV Storage</h3>
+<p>High-clearance designs built around larger toys.</p>
 </div>
 
 </div>
+
+</div>
+
+</section>
+
+<section class="section cta" id="community">
+
+<div class="container">
+
+<h2>Share Your Dream Garage</h2>
+
+<p>
+Future community section for showcasing builds, floorplans,
+photos, lessons learned and ideas.
+</p>
+
+<a href="#" class="btn btn-primary">Submit Your Build</a>
 
 </div>
 
@@ -446,11 +640,15 @@ Browse real shops and save ideas for later.
 
 <div class="container">
 
-Dream Shop Designer © 2026
+<strong>Garage Dreaming</strong>
 
 <br><br>
 
-Design. Dream. Build.
+Inspiration for shops, garages, hangars & man caves.
+
+<br><br>
+
+© 2026 GarageDreaming.com
 
 </div>
 
