@@ -3,284 +3,236 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Garage Dreamer</title>
-
+<title>Garage Dreaming - Dreamer V2</title>
 <style>
-
 :root{
-    --bg:#08111d;
-    --panel:#111f31;
-    --accent:#ff5c1b;
-    --border:#23364f;
-    --text:#fff;
+--bg:#08111d;--panel:#111f31;--accent:#ff5c1b;--border:#23364f;
 }
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    background:var(--bg);
-    color:white;
-    font-family:Arial, sans-serif;
-    display:flex;
-    height:100vh;
-}
-
-.sidebar{
-    width:280px;
-    background:var(--panel);
-    padding:20px;
-    overflow:auto;
-}
-
-.sidebar h2{
-    margin-top:0;
-}
-
-.canvas-container{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    overflow:auto;
-}
-
-#shopCanvas{
-    position:relative;
-    background:#f8f8f8;
-    border:3px solid #444;
-}
-
-.item{
-    position:absolute;
-    cursor:move;
-    border:2px solid #222;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-    font-weight:bold;
-    color:black;
-    user-select:none;
-}
-
-.car{ background:#5fa8ff; }
-.truck{ background:#4dd4ac; }
-.boat{ background:#ffc857; }
-.lift{ background:#ff7b72; }
-.workbench{ background:#c792ea; }
-.tablesaw{ background:#ffcb6b; }
-.office{ background:#d4d4d4; }
-
-button{
-    width:100%;
-    padding:10px;
-    margin-bottom:8px;
-    border:none;
-    background:var(--accent);
-    color:white;
-    cursor:pointer;
-}
-
-select{
-    width:100%;
-    padding:10px;
-    margin-bottom:15px;
-}
-
-.stats{
-    margin-top:20px;
-    padding:15px;
-    background:#0d1a2b;
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#fff;display:flex;height:100vh}
+#left{width:300px;background:var(--panel);padding:12px;overflow:auto}
+#main{flex:1;display:flex;flex-direction:column}
+#topbar{padding:10px;background:#0d1a2b;display:flex;gap:10px;align-items:center}
+#canvasWrap{flex:1;overflow:auto;display:flex;justify-content:center;align-items:center}
+canvas{background:#d8d8d8;border:2px solid #444}
+button,select{width:100%;margin:3px 0;padding:8px}
+.group{margin-bottom:12px;border-top:1px solid #334;padding-top:8px}
+#stats{background:#0d1a2b;padding:10px;margin-top:10px}
+#fillOuter{height:18px;background:#333}
+#fillInner{height:18px;background:var(--accent);width:0%}
+textarea{width:100%;height:80px}
 </style>
 </head>
 <body>
-
-<div class="sidebar">
-
-<h2>Garage Dreamer</h2>
-
+<div id="left">
+<h2>Garage Dreaming</h2>
 <select id="shopSize">
-<option value="40x60">40x60</option>
-<option value="50x60">50x60</option>
-<option value="50x80">50x80</option>
-<option value="60x80">60x80</option>
+<option>40x60</option><option>50x60</option><option>50x80</option><option>60x80</option>
 </select>
 
-<h3>Vehicles</h3>
-
-<button onclick="addItem('car')">Car</button>
-<button onclick="addItem('truck')">Truck</button>
-<button onclick="addItem('boat')">Boat</button>
-
-<h3>Shop</h3>
-
-<button onclick="addItem('lift')">Lift</button>
-<button onclick="addItem('workbench')">Workbench</button>
-
-<h3>Woodworking</h3>
-
-<button onclick="addItem('tablesaw')">Table Saw</button>
-
-<h3>Rooms</h3>
-
-<button onclick="addItem('office')">Office</button>
-
-<div class="stats">
-
-<div>Shop Area: <span id="shopArea">2400</span> sq ft</div>
-<div>Used Area: <span id="usedArea">0</span> sq ft</div>
-
+<div class="group"><b>Vehicles</b>
+<button onclick="addType('car')">Car</button>
+<button onclick="addType('truck')">Truck</button>
+<button onclick="addType('boat')">Boat</button>
+<button onclick="addType('motorcycle')">Motorcycle</button>
 </div>
 
+<div class="group"><b>Shop</b>
+<button onclick="addType('lift')">2 Post Lift</button>
+<button onclick="addType('workbench')">Workbench</button>
+<button onclick="addType('toolbox')">Toolbox</button>
 </div>
 
-<div class="canvas-container">
-    <div id="shopCanvas"></div>
+<div class="group"><b>Woodworking</b>
+<button onclick="addType('tablesaw')">Table Saw</button>
+<button onclick="addType('bandsaw')">Band Saw</button>
+</div>
+
+<div class="group"><b>Structure</b>
+<button onclick="addType('office')">Office</button>
+<button onclick="addType('bathroom')">Bathroom</button>
+</div>
+
+<div class="group"><b>Presets</b>
+<button onclick="loadPreset('carguy')">Car Guy</button>
+<button onclick="loadPreset('lakelife')">Lake Life</button>
+<button onclick="loadPreset('woodworker')">Woodworker</button>
+</div>
+
+<div id="stats">
+<div>Shop Area: <span id="shopArea"></span></div>
+<div>Used Area: <span id="usedArea"></span></div>
+<div id="fillOuter"><div id="fillInner"></div></div>
+</div>
+
+<div class="group">
+<button onclick="rotateSelected()">Rotate Selected</button>
+<button onclick="deleteSelected()">Delete Selected</button>
+<button onclick="saveLayout()">Save Layout</button>
+<button onclick="loadLayout()">Load Layout</button>
+</div>
+
+<textarea placeholder="Shop notes..."></textarea>
+</div>
+
+<div id="main">
+<div id="topbar">Garage Dreamer V2 (Canvas Engine)</div>
+<div id="canvasWrap"><canvas id="c" width="1000" height="700"></canvas></div>
 </div>
 
 <script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+const scale=10;
+let selected=null;
 
-const scale = 10;
-
-const canvas = document.getElementById("shopCanvas");
-
-const sizes = {
-    "40x60":[40,60],
-    "50x60":[50,60],
-    "50x80":[50,80],
-    "60x80":[60,80]
+const shopSizes={
+"40x60":[40,60],
+"50x60":[50,60],
+"50x80":[50,80],
+"60x80":[60,80]
 };
 
-const objects = {
-    car:{w:8,h:16,class:"car"},
-    truck:{w:8,h:20,class:"truck"},
-    boat:{w:10,h:28,class:"boat"},
-    lift:{w:12,h:22,class:"lift"},
-    workbench:{w:3,h:8,class:"workbench"},
-    tablesaw:{w:8,h:8,class:"tablesaw"},
-    office:{w:12,h:12,class:"office"}
+const defs={
+car:{w:8,h:16,color:"#5fa8ff"},
+truck:{w:8,h:20,color:"#4dd4ac"},
+boat:{w:10,h:28,color:"#5fa8ff"},
+motorcycle:{w:3,h:8,color:"#5fa8ff"},
+lift:{w:12,h:22,color:"#ff7b72"},
+workbench:{w:3,h:8,color:"#ff7b72"},
+toolbox:{w:2,h:6,color:"#ff7b72"},
+tablesaw:{w:8,h:8,color:"#ffcb6b"},
+bandsaw:{w:4,h:4,color:"#ffcb6b"},
+office:{w:12,h:12,color:"#bbbbbb"},
+bathroom:{w:8,h:8,color:"#bbbbbb"}
 };
 
-let totalUsed = 0;
+let items=[];
 
-function updateCanvas(){
-
-    const size = document.getElementById("shopSize").value;
-
-    const dims = sizes[size];
-
-    canvas.style.width = (dims[0]*scale)+"px";
-    canvas.style.height = (dims[1]*scale)+"px";
-
-    document.getElementById("shopArea").innerText =
-        dims[0]*dims[1];
+function getShop(){
+ return shopSizes[document.getElementById('shopSize').value];
 }
 
-document.getElementById("shopSize")
-.addEventListener("change", updateCanvas);
-
-updateCanvas();
-
-function addItem(type){
-
-    const obj = objects[type];
-
-    const div = document.createElement("div");
-
-    div.className = "item " + obj.class;
-
-    div.style.width = (obj.w*scale)+"px";
-    div.style.height = (obj.h*scale)+"px";
-
-    div.style.left = "20px";
-    div.style.top = "20px";
-
-    div.dataset.area = obj.w*obj.h;
-
-    div.innerHTML = type;
-
-    canvas.appendChild(div);
-
-    totalUsed += obj.w*obj.h;
-
-    updateStats();
-
-    makeDraggable(div);
-
-    div.addEventListener("dblclick",()=>{
-
-        totalUsed -= parseInt(div.dataset.area);
-
-        div.remove();
-
-        updateStats();
-
-    });
-
-    div.addEventListener("contextmenu",(e)=>{
-
-        e.preventDefault();
-
-        const w = div.offsetWidth;
-
-        div.style.width = div.offsetHeight+"px";
-        div.style.height = w+"px";
-
-    });
-
+function addType(type){
+ const d=defs[type];
+ items.push({type,x:2,y:2,w:d.w,h:d.h,r:0});
+ render();
 }
 
-function updateStats(){
-
-    document.getElementById("usedArea")
-        .innerText = totalUsed;
-
+function loadPreset(name){
+ items=[];
+ if(name==='carguy'){
+ addType('lift');addType('lift');addType('car');addType('car');
+ } else if(name==='lakelife'){
+ addType('boat');addType('truck');addType('motorcycle');
+ } else {
+ addType('tablesaw');addType('bandsaw');addType('workbench');
+ }
 }
 
-function makeDraggable(el){
+function render(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ const [sw,sh]=getShop();
+ const ox=50, oy=50;
 
-    let offsetX=0;
-    let offsetY=0;
-    let dragging=false;
+ ctx.strokeStyle="#999";
+ for(let x=0;x<=sw;x++){
+  ctx.beginPath();ctx.moveTo(ox+x*scale,oy);ctx.lineTo(ox+x*scale,oy+sh*scale);ctx.stroke();
+ }
+ for(let y=0;y<=sh;y++){
+  ctx.beginPath();ctx.moveTo(ox,oy+y*scale);ctx.lineTo(ox+sw*scale,oy+y*scale);ctx.stroke();
+ }
 
-    el.addEventListener("mousedown",(e)=>{
+ ctx.lineWidth=3;
+ ctx.strokeStyle="#222";
+ ctx.strokeRect(ox,oy,sw*scale,sh*scale);
 
-        dragging=true;
+ let used=0;
 
-        offsetX=e.offsetX;
-        offsetY=e.offsetY;
+ items.forEach((it,i)=>{
+  const d=defs[it.type];
+  used+=it.w*it.h;
 
-    });
+  ctx.save();
+  ctx.translate(ox+it.x*scale,oy+it.y*scale);
+  ctx.fillStyle=d.color;
+  ctx.fillRect(0,0,it.w*scale,it.h*scale);
 
-    document.addEventListener("mousemove",(e)=>{
+  if(selected===i){
+    ctx.strokeStyle="#000";
+    ctx.lineWidth=3;
+    ctx.strokeRect(0,0,it.w*scale,it.h*scale);
+  }
 
-        if(!dragging) return;
+  ctx.fillStyle="#000";
+  ctx.font="12px Arial";
+  ctx.fillText(it.type,4,16);
+  ctx.restore();
+ });
 
-        const rect = canvas.getBoundingClientRect();
-
-        el.style.left =
-            (e.clientX-rect.left-offsetX)+"px";
-
-        el.style.top =
-            (e.clientY-rect.top-offsetY)+"px";
-
-    });
-
-    document.addEventListener("mouseup",()=>{
-
-        dragging=false;
-
-    });
-
+ document.getElementById('shopArea').textContent=sw*sh;
+ document.getElementById('usedArea').textContent=Math.round(used);
+ document.getElementById('fillInner').style.width=((used/(sw*sh))*100).toFixed(1)+'%';
 }
 
+let dragging=false,dx=0,dy=0;
+
+canvas.addEventListener('mousedown',e=>{
+ const [sw,sh]=getShop();
+ const ox=50,oy=50;
+ const mx=(e.offsetX-ox)/scale;
+ const my=(e.offsetY-oy)/scale;
+
+ selected=null;
+
+ items.forEach((it,i)=>{
+   if(mx>=it.x && mx<=it.x+it.w && my>=it.y && my<=it.y+it.h){
+      selected=i; dragging=true;
+      dx=mx-it.x; dy=my-it.y;
+   }
+ });
+
+ render();
+});
+
+canvas.addEventListener('mousemove',e=>{
+ if(!dragging || selected===null) return;
+ const ox=50,oy=50;
+ const mx=(e.offsetX-ox)/scale;
+ const my=(e.offsetY-oy)/scale;
+ items[selected].x=Math.round(mx-dx);
+ items[selected].y=Math.round(my-dy);
+ render();
+});
+
+window.addEventListener('mouseup',()=>dragging=false);
+
+function rotateSelected(){
+ if(selected===null) return;
+ let t=items[selected].w;
+ items[selected].w=items[selected].h;
+ items[selected].h=t;
+ render();
+}
+
+function deleteSelected(){
+ if(selected===null) return;
+ items.splice(selected,1);
+ selected=null;
+ render();
+}
+
+function saveLayout(){
+ localStorage.setItem('gd-layout',JSON.stringify(items));
+ alert('Layout saved');
+}
+
+function loadLayout(){
+ const d=localStorage.getItem('gd-layout');
+ if(d){items=JSON.parse(d);render();}
+}
+
+document.getElementById('shopSize').addEventListener('change',render);
+render();
 </script>
-
 </body>
 </html>
