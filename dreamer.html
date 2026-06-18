@@ -1,162 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Garage Dreaming - Dreamer V3</title>
+<title>Garage Dreaming - Dreamer V4</title>
 <style>
-:root{
---bg:#08111d;--panel:#111f31;--panel2:#0d1a2b;
---accent:#ff5c1b;--border:#23364f;--text:#fff;
-}
-body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:#fff;display:flex;height:100vh}
-#sidebar{width:320px;background:var(--panel);padding:12px;overflow:auto}
+:root{--bg:#08111d;--panel:#111f31;--panel2:#0d1a2b;--accent:#ff5c1b;--border:#23364f;}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#fff;display:flex;height:100vh}
+#side{width:330px;background:var(--panel);padding:12px;overflow:auto}
 #main{flex:1;display:flex;flex-direction:column}
-#toolbar{background:var(--panel2);padding:10px;display:flex;gap:8px}
-.orange-btn{
-background:var(--accent);color:#fff;border:none;border-radius:8px;
-padding:10px;font-weight:700;cursor:pointer
-}
-.dark-btn{
-background:var(--panel2);color:#fff;border:1px solid var(--border);
-border-radius:8px;padding:10px;cursor:pointer
-}
-button{width:100%;margin:4px 0}
-.group{margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
-#canvasWrap{flex:1;overflow:auto;display:flex;justify-content:center;align-items:center}
-canvas{background:#d9d9d9;border:2px solid #444}
+#top{background:var(--panel2);padding:8px;display:flex;gap:8px}
+.btn{background:var(--accent);border:none;color:#fff;padding:10px;border-radius:8px;font-weight:bold;cursor:pointer}
+.small{width:100%;margin:3px 0}
 .card{background:var(--panel2);padding:10px;border-radius:8px;margin-top:10px}
-#fillOuter{height:18px;background:#333;border-radius:4px;overflow:hidden}
-#fillInner{height:18px;background:var(--accent);width:0%}
-label{display:block;margin:8px 0}
+#wrap{flex:1;overflow:auto}
+canvas{background:#d9d9d9;display:block;margin:20px auto;border:2px solid #444}
 </style>
 </head>
 <body>
-<div id="sidebar">
+<div id="side">
 <h2>Garage Dreaming</h2>
 
-<label>Shop Size
-<select id="shopSize">
+<select id="shopSize" class="small">
 <option>40x60</option><option>50x60</option><option>50x80</option><option>60x80</option>
 </select>
-</label>
 
-<label><input type="checkbox" id="snap" checked> Snap To Grid</label>
+<label><input type="checkbox" id="snap" checked> Snap To Grid</label><br>
+<label><input type="checkbox" id="showDims" checked> Show Dimensions</label><br>
+<label><input type="checkbox" id="showClear"> Show Clearances</label>
 
-<div class="group"><b>🚗 Vehicles</b>
-<button class="orange-btn" onclick="addType('car')">Add Car</button>
-<button class="orange-btn" onclick="addType('truck')">Add Truck</button>
-<button class="orange-btn" onclick="addType('boat')">Add Boat</button>
-</div>
-
-<div class="group"><b>🔧 Shop Equipment</b>
-<button class="orange-btn" onclick="addType('lift')">Add Lift</button>
-<button class="orange-btn" onclick="addType('workbench')">Add Workbench</button>
-</div>
-
-<div class="group"><b>🪵 Woodworking</b>
-<button class="orange-btn" onclick="addType('tablesaw')">Add Table Saw</button>
-</div>
-
-<div class="group"><b>🏗 Structure</b>
-<button class="orange-btn" onclick="addDoor()">Overhead Door</button>
-<button class="orange-btn" onclick="addWindow()">Window</button>
+<div class="card">
+<b>🚗 Vehicles</b><br>
+<button class="btn small" onclick="add('car')">Car</button>
+<button class="btn small" onclick="add('truck')">Truck</button>
+<button class="btn small" onclick="add('boat')">Boat</button>
 </div>
 
 <div class="card">
-<b>Shop Utilization</b>
-<div id="pct">0%</div>
-<div id="fillOuter"><div id="fillInner"></div></div>
-<div>Used: <span id="used">0</span> sq ft</div>
+<b>🏗 Structure</b><br>
+<button class="btn small" onclick="addDoor()">Overhead Door</button>
+<button class="btn small" onclick="addWindow()">Window</button>
 </div>
 
 <div class="card">
-<b>Selected Item</b>
-<div id="selectedInfo">None</div>
-<button class="dark-btn" onclick="rotateSelected()">Rotate</button>
-<button class="dark-btn" onclick="deleteSelected()">Delete</button>
+<b>Inspector</b>
+<div id="info">None</div>
+<button class="btn small" onclick="rotate()">Rotate</button>
+<button class="btn small" onclick="resizePlus()">Size +</button>
+<button class="btn small" onclick="resizeMinus()">Size -</button>
+<button class="btn small" onclick="removeItem()">Delete</button>
+</div>
+
+<div class="card">
+<b>Property</b><br>
+Width <input id="lotW" value="100" style="width:60px">
+Depth <input id="lotD" value="150" style="width:60px">
+<button class="btn small" onclick="render()">Update Lot</button>
+</div>
+
+<div class="card">
+<button class="btn small" onclick="saveLayout()">Save</button>
+<button class="btn small" onclick="loadLayout()">Load</button>
 </div>
 </div>
 
 <div id="main">
-<div id="toolbar">
-<button class="orange-btn">Browse Inspiration</button>
-<button class="orange-btn">Dreamer</button>
-<button class="orange-btn" onclick="saveLayout()">Save Layout</button>
-<button class="orange-btn" onclick="loadLayout()">Load Layout</button>
+<div id="top">
+<button class="btn">Browse Inspiration</button>
+<button class="btn">Dreamer</button>
 </div>
-<div id="canvasWrap">
-<canvas id="c" width="1200" height="800"></canvas>
+<div id="wrap">
+<canvas id="c" width="1400" height="900"></canvas>
 </div>
 </div>
 
 <script>
-const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+const c=document.getElementById('c'),ctx=c.getContext('2d');
 const scale=10;
 const sizes={"40x60":[40,60],"50x60":[50,60],"50x80":[50,80],"60x80":[60,80]};
 const defs={
 car:{w:8,h:16,color:"#5fa8ff"},
 truck:{w:8,h:20,color:"#4dd4ac"},
 boat:{w:10,h:28,color:"#5fa8ff"},
-lift:{w:12,h:22,color:"#ff7b72"},
-workbench:{w:3,h:8,color:"#ff7b72"},
-tablesaw:{w:8,h:8,color:"#ffcb6b"},
-door:{w:14,h:1,color:"#7ad97a"},
-window:{w:6,h:1,color:"#7ad97a"}
+door:{w:14,h:1,color:"#77dd77",wall:true},
+window:{w:6,h:1,color:"#77dd77",wall:true}
 };
-let items=[],selected=null,drag=false,dx=0,dy=0;
+let items=[],selected=null,zoom=1;
 
-function addType(t){let d=defs[t];items.push({type:t,x:2,y:2,w:d.w,h:d.h});render();}
-function addDoor(){items.push({type:'door',x:5,y:0,w:14,h:1,resizable:true});render();}
-function addWindow(){items.push({type:'window',x:25,y:0,w:6,h:1,resizable:true});render();}
+function add(t){let d=defs[t];items.push({type:t,x:2,y:2,w:d.w,h:d.h});render();}
+function addDoor(){items.push({type:'door',x:5,y:0,w:14,h:1});render();}
+function addWindow(){items.push({type:'window',x:25,y:0,w:6,h:1});render();}
 
 function render(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-let [sw,sh]=sizes[shopSize.value],ox=50,oy=50;
+ctx.clearRect(0,0,c.width,c.height);
+let [sw,sh]=sizes[shopSize.value];
+let ox=120,oy=120;
 
-ctx.strokeStyle='#aaa';
-for(let x=0;x<=sw;x++){ctx.beginPath();ctx.moveTo(ox+x*scale,oy);ctx.lineTo(ox+x*scale,oy+sh*scale);ctx.stroke();}
+let lotW=parseInt(lotWEl.value),lotD=parseInt(lotDEl.value);
+
+ctx.strokeStyle="#666";
+ctx.strokeRect(20,20,lotW*4,lotD*4);
+ctx.fillStyle="#aaa";
+ctx.fillText("Property "+lotW+"' x "+lotD+"'",25,15);
+
+for(let x=0;x<=sw;x++){ctx.beginPath();ctx.moveTo(ox+x*scale,oy);ctx.lineTo(ox+x*scale,oy+sh*scale);ctx.strokeStyle="#bbb";ctx.stroke();}
 for(let y=0;y<=sh;y++){ctx.beginPath();ctx.moveTo(ox,oy+y*scale);ctx.lineTo(ox+sw*scale,oy+y*scale);ctx.stroke();}
-ctx.strokeStyle='#222';ctx.lineWidth=3;ctx.strokeRect(ox,oy,sw*scale,sh*scale);
 
-let used=0;
+ctx.strokeStyle="#222";ctx.lineWidth=3;
+ctx.strokeRect(ox,oy,sw*scale,sh*scale);
+
 items.forEach((it,i)=>{
 let d=defs[it.type];
-used+=it.w*it.h;
 ctx.fillStyle=d.color;
 ctx.fillRect(ox+it.x*scale,oy+it.y*scale,it.w*scale,it.h*scale);
-if(i===selected){ctx.strokeStyle='#000';ctx.strokeRect(ox+it.x*scale,oy+it.y*scale,it.w*scale,it.h*scale);}
-ctx.fillStyle='#000';ctx.fillText(it.type,ox+it.x*scale+2,oy+it.y*scale+12);
-});
-let pct=Math.round((used/(sw*sh))*100);
-usedEl.textContent=used;pctEl.textContent=pct+'%';fillInner.style.width=pct+'%';
-selectedInfo.textContent=selected==null?'None':items[selected].type+' ('+items[selected].w+"x"+items[selected].h+"')";
-}
-const usedEl=document.getElementById('used'),pctEl=document.getElementById('pct');
 
-canvas.onmousedown=e=>{
-let [sw,sh]=sizes[shopSize.value],ox=50,oy=50;
-let mx=(e.offsetX-ox)/scale,my=(e.offsetY-oy)/scale;
+if(document.getElementById('showClear').checked && ['car','truck','boat'].includes(it.type)){
+ctx.strokeStyle='rgba(255,100,0,.5)';
+ctx.strokeRect(ox+(it.x-2)*scale,oy+(it.y-2)*scale,(it.w+4)*scale,(it.h+4)*scale);
+}
+
+if(i===selected){
+ctx.strokeStyle="#000";
+ctx.strokeRect(ox+it.x*scale,oy+it.y*scale,it.w*scale,it.h*scale);
+}
+
+ctx.fillStyle="#000";
+ctx.fillText(it.type,ox+it.x*scale+2,oy+it.y*scale+12);
+
+if(showDims.checked){
+ctx.fillText(it.w+"'x"+it.h+"'",ox+it.x*scale+2,oy+it.y*scale+24);
+}
+});
+
+info.textContent = selected==null ? "None" : JSON.stringify(items[selected]);
+}
+
+let drag=false,dx=0,dy=0;
+c.onmousedown=e=>{
+let ox=120,oy=120,mx=(e.offsetX-ox)/scale,my=(e.offsetY-oy)/scale;
 selected=null;
 items.forEach((it,i)=>{
 if(mx>=it.x&&mx<=it.x+it.w&&my>=it.y&&my<=it.y+it.h){selected=i;drag=true;dx=mx-it.x;dy=my-it.y;}
 });
 render();
 };
-canvas.onmousemove=e=>{
+c.onmousemove=e=>{
 if(!drag||selected==null)return;
-let ox=50,oy=50,mx=(e.offsetX-ox)/scale,my=(e.offsetY-oy)/scale;
+let ox=120,oy=120,mx=(e.offsetX-ox)/scale,my=(e.offsetY-oy)/scale;
 let nx=mx-dx,ny=my-dy;
-if(document.getElementById('snap').checked){nx=Math.round(nx);ny=Math.round(ny);}
-items[selected].x=nx;items[selected].y=ny;render();
+if(snap.checked){nx=Math.round(nx);ny=Math.round(ny);}
+items[selected].x=nx;items[selected].y=ny;
+render();
 };
 window.onmouseup=()=>drag=false;
 
-function rotateSelected(){if(selected==null)return;let t=items[selected].w;items[selected].w=items[selected].h;items[selected].h=t;render();}
-function deleteSelected(){if(selected==null)return;items.splice(selected,1);selected=null;render();}
-function saveLayout(){localStorage.setItem('gdv3',JSON.stringify(items));alert('Saved');}
-function loadLayout(){let d=localStorage.getItem('gdv3');if(d){items=JSON.parse(d);render();}}
+function rotate(){if(selected==null)return;let t=items[selected].w;items[selected].w=items[selected].h;items[selected].h=t;render();}
+function resizePlus(){if(selected==null)return;items[selected].w+=1;render();}
+function resizeMinus(){if(selected==null)return;items[selected].w=Math.max(1,items[selected].w-1);render();}
+function removeItem(){if(selected==null)return;items.splice(selected,1);selected=null;render();}
 
+function saveLayout(){localStorage.setItem('gdv4',JSON.stringify(items));}
+function loadLayout(){let d=localStorage.getItem('gdv4');if(d){items=JSON.parse(d);render();}}
+
+const lotWEl=document.getElementById('lotW');
+const lotDEl=document.getElementById('lotD');
 shopSize.onchange=render;
 render();
 </script>
