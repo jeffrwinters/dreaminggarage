@@ -15,6 +15,23 @@ body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#fff;displ
 .card{background:var(--panel2);padding:10px;border-radius:8px;margin-top:10px}
 #wrap{flex:1;overflow:auto}
 canvas{background:#d9d9d9;display:block;margin:20px auto;border:2px solid #444}
+
+@media (max-width: 900px){
+  body{display:block;height:auto}
+  #side{width:auto;max-height:none}
+  #main{width:100%}
+  #top{flex-wrap:wrap}
+  .btn{min-height:44px;font-size:16px}
+  #wrap{overflow:auto;padding:10px}
+  canvas{
+    width:100%;
+    height:auto;
+    max-width:1400px;
+    margin:10px auto;
+    touch-action:none;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -166,6 +183,31 @@ const lotWEl=document.getElementById('lotW');
 const lotDEl=document.getElementById('lotD');
 shopSize.onchange=render;
 render();
+
+function getPos(evt){
+ const r=c.getBoundingClientRect();
+ const t=evt.touches?evt.touches[0]:evt;
+ return {
+   offsetX:(t.clientX-r.left)*(c.width/r.width),
+   offsetY:(t.clientY-r.top)*(c.height/r.height)
+ };
+}
+c.addEventListener('touchstart',e=>{
+ e.preventDefault();
+ const p=getPos(e);
+ c.onmousedown({offsetX:p.offsetX,offsetY:p.offsetY});
+},{passive:false});
+
+c.addEventListener('touchmove',e=>{
+ e.preventDefault();
+ const p=getPos(e);
+ c.onmousemove({offsetX:p.offsetX,offsetY:p.offsetY});
+},{passive:false});
+
+c.addEventListener('touchend',e=>{
+ drag=false;
+},{passive:false});
+
 </script>
 </body>
 </html>
