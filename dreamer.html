@@ -1,237 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garage Dreaming - Dreamer V2</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Garage Dreaming - Dreamer V3</title>
 <style>
 :root{
---bg:#08111d;--panel:#111f31;--accent:#ff5c1b;--border:#23364f;
+--bg:#08111d;--panel:#111f31;--panel2:#0d1a2b;
+--accent:#ff5c1b;--border:#23364f;--text:#fff;
 }
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#fff;display:flex;height:100vh}
-#left{width:300px;background:var(--panel);padding:12px;overflow:auto}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:#fff;display:flex;height:100vh}
+#sidebar{width:320px;background:var(--panel);padding:12px;overflow:auto}
 #main{flex:1;display:flex;flex-direction:column}
-#topbar{padding:10px;background:#0d1a2b;display:flex;gap:10px;align-items:center}
+#toolbar{background:var(--panel2);padding:10px;display:flex;gap:8px}
+.orange-btn{
+background:var(--accent);color:#fff;border:none;border-radius:8px;
+padding:10px;font-weight:700;cursor:pointer
+}
+.dark-btn{
+background:var(--panel2);color:#fff;border:1px solid var(--border);
+border-radius:8px;padding:10px;cursor:pointer
+}
+button{width:100%;margin:4px 0}
+.group{margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
 #canvasWrap{flex:1;overflow:auto;display:flex;justify-content:center;align-items:center}
-canvas{background:#d8d8d8;border:2px solid #444}
-button,select{width:100%;margin:3px 0;padding:8px}
-.group{margin-bottom:12px;border-top:1px solid #334;padding-top:8px}
-#stats{background:#0d1a2b;padding:10px;margin-top:10px}
-#fillOuter{height:18px;background:#333}
+canvas{background:#d9d9d9;border:2px solid #444}
+.card{background:var(--panel2);padding:10px;border-radius:8px;margin-top:10px}
+#fillOuter{height:18px;background:#333;border-radius:4px;overflow:hidden}
 #fillInner{height:18px;background:var(--accent);width:0%}
-textarea{width:100%;height:80px}
+label{display:block;margin:8px 0}
 </style>
 </head>
 <body>
-<div id="left">
+<div id="sidebar">
 <h2>Garage Dreaming</h2>
+
+<label>Shop Size
 <select id="shopSize">
 <option>40x60</option><option>50x60</option><option>50x80</option><option>60x80</option>
 </select>
+</label>
 
-<div class="group"><b>Vehicles</b>
-<button onclick="addType('car')">Car</button>
-<button onclick="addType('truck')">Truck</button>
-<button onclick="addType('boat')">Boat</button>
-<button onclick="addType('motorcycle')">Motorcycle</button>
+<label><input type="checkbox" id="snap" checked> Snap To Grid</label>
+
+<div class="group"><b>🚗 Vehicles</b>
+<button class="orange-btn" onclick="addType('car')">Add Car</button>
+<button class="orange-btn" onclick="addType('truck')">Add Truck</button>
+<button class="orange-btn" onclick="addType('boat')">Add Boat</button>
 </div>
 
-<div class="group"><b>Shop</b>
-<button onclick="addType('lift')">2 Post Lift</button>
-<button onclick="addType('workbench')">Workbench</button>
-<button onclick="addType('toolbox')">Toolbox</button>
+<div class="group"><b>🔧 Shop Equipment</b>
+<button class="orange-btn" onclick="addType('lift')">Add Lift</button>
+<button class="orange-btn" onclick="addType('workbench')">Add Workbench</button>
 </div>
 
-<div class="group"><b>Woodworking</b>
-<button onclick="addType('tablesaw')">Table Saw</button>
-<button onclick="addType('bandsaw')">Band Saw</button>
+<div class="group"><b>🪵 Woodworking</b>
+<button class="orange-btn" onclick="addType('tablesaw')">Add Table Saw</button>
 </div>
 
-<div class="group"><b>Structure</b>
-<button onclick="addType('office')">Office</button>
-<button onclick="addType('bathroom')">Bathroom</button>
+<div class="group"><b>🏗 Structure</b>
+<button class="orange-btn" onclick="addDoor()">Overhead Door</button>
+<button class="orange-btn" onclick="addWindow()">Window</button>
 </div>
 
-<div class="group"><b>Presets</b>
-<button onclick="loadPreset('carguy')">Car Guy</button>
-<button onclick="loadPreset('lakelife')">Lake Life</button>
-<button onclick="loadPreset('woodworker')">Woodworker</button>
-</div>
-
-<div id="stats">
-<div>Shop Area: <span id="shopArea"></span></div>
-<div>Used Area: <span id="usedArea"></span></div>
+<div class="card">
+<b>Shop Utilization</b>
+<div id="pct">0%</div>
 <div id="fillOuter"><div id="fillInner"></div></div>
+<div>Used: <span id="used">0</span> sq ft</div>
 </div>
 
-<div class="group">
-<button onclick="rotateSelected()">Rotate Selected</button>
-<button onclick="deleteSelected()">Delete Selected</button>
-<button onclick="saveLayout()">Save Layout</button>
-<button onclick="loadLayout()">Load Layout</button>
+<div class="card">
+<b>Selected Item</b>
+<div id="selectedInfo">None</div>
+<button class="dark-btn" onclick="rotateSelected()">Rotate</button>
+<button class="dark-btn" onclick="deleteSelected()">Delete</button>
 </div>
-
-<textarea placeholder="Shop notes..."></textarea>
 </div>
 
 <div id="main">
-<div id="topbar">Garage Dreamer V2 (Canvas Engine)</div>
-<div id="canvasWrap"><canvas id="c" width="1000" height="700"></canvas></div>
+<div id="toolbar">
+<button class="orange-btn">Browse Inspiration</button>
+<button class="orange-btn">Dreamer</button>
+<button class="orange-btn" onclick="saveLayout()">Save Layout</button>
+<button class="orange-btn" onclick="loadLayout()">Load Layout</button>
+</div>
+<div id="canvasWrap">
+<canvas id="c" width="1200" height="800"></canvas>
+</div>
 </div>
 
 <script>
-const canvas=document.getElementById('c');
-const ctx=canvas.getContext('2d');
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
 const scale=10;
-let selected=null;
-
-const shopSizes={
-"40x60":[40,60],
-"50x60":[50,60],
-"50x80":[50,80],
-"60x80":[60,80]
-};
-
+const sizes={"40x60":[40,60],"50x60":[50,60],"50x80":[50,80],"60x80":[60,80]};
 const defs={
 car:{w:8,h:16,color:"#5fa8ff"},
 truck:{w:8,h:20,color:"#4dd4ac"},
 boat:{w:10,h:28,color:"#5fa8ff"},
-motorcycle:{w:3,h:8,color:"#5fa8ff"},
 lift:{w:12,h:22,color:"#ff7b72"},
 workbench:{w:3,h:8,color:"#ff7b72"},
-toolbox:{w:2,h:6,color:"#ff7b72"},
 tablesaw:{w:8,h:8,color:"#ffcb6b"},
-bandsaw:{w:4,h:4,color:"#ffcb6b"},
-office:{w:12,h:12,color:"#bbbbbb"},
-bathroom:{w:8,h:8,color:"#bbbbbb"}
+door:{w:14,h:1,color:"#7ad97a"},
+window:{w:6,h:1,color:"#7ad97a"}
 };
+let items=[],selected=null,drag=false,dx=0,dy=0;
 
-let items=[];
-
-function getShop(){
- return shopSizes[document.getElementById('shopSize').value];
-}
-
-function addType(type){
- const d=defs[type];
- items.push({type,x:2,y:2,w:d.w,h:d.h,r:0});
- render();
-}
-
-function loadPreset(name){
- items=[];
- if(name==='carguy'){
- addType('lift');addType('lift');addType('car');addType('car');
- } else if(name==='lakelife'){
- addType('boat');addType('truck');addType('motorcycle');
- } else {
- addType('tablesaw');addType('bandsaw');addType('workbench');
- }
-}
+function addType(t){let d=defs[t];items.push({type:t,x:2,y:2,w:d.w,h:d.h});render();}
+function addDoor(){items.push({type:'door',x:5,y:0,w:14,h:1,resizable:true});render();}
+function addWindow(){items.push({type:'window',x:25,y:0,w:6,h:1,resizable:true});render();}
 
 function render(){
- ctx.clearRect(0,0,canvas.width,canvas.height);
- const [sw,sh]=getShop();
- const ox=50, oy=50;
+ctx.clearRect(0,0,canvas.width,canvas.height);
+let [sw,sh]=sizes[shopSize.value],ox=50,oy=50;
 
- ctx.strokeStyle="#999";
- for(let x=0;x<=sw;x++){
-  ctx.beginPath();ctx.moveTo(ox+x*scale,oy);ctx.lineTo(ox+x*scale,oy+sh*scale);ctx.stroke();
- }
- for(let y=0;y<=sh;y++){
-  ctx.beginPath();ctx.moveTo(ox,oy+y*scale);ctx.lineTo(ox+sw*scale,oy+y*scale);ctx.stroke();
- }
+ctx.strokeStyle='#aaa';
+for(let x=0;x<=sw;x++){ctx.beginPath();ctx.moveTo(ox+x*scale,oy);ctx.lineTo(ox+x*scale,oy+sh*scale);ctx.stroke();}
+for(let y=0;y<=sh;y++){ctx.beginPath();ctx.moveTo(ox,oy+y*scale);ctx.lineTo(ox+sw*scale,oy+y*scale);ctx.stroke();}
+ctx.strokeStyle='#222';ctx.lineWidth=3;ctx.strokeRect(ox,oy,sw*scale,sh*scale);
 
- ctx.lineWidth=3;
- ctx.strokeStyle="#222";
- ctx.strokeRect(ox,oy,sw*scale,sh*scale);
-
- let used=0;
-
- items.forEach((it,i)=>{
-  const d=defs[it.type];
-  used+=it.w*it.h;
-
-  ctx.save();
-  ctx.translate(ox+it.x*scale,oy+it.y*scale);
-  ctx.fillStyle=d.color;
-  ctx.fillRect(0,0,it.w*scale,it.h*scale);
-
-  if(selected===i){
-    ctx.strokeStyle="#000";
-    ctx.lineWidth=3;
-    ctx.strokeRect(0,0,it.w*scale,it.h*scale);
-  }
-
-  ctx.fillStyle="#000";
-  ctx.font="12px Arial";
-  ctx.fillText(it.type,4,16);
-  ctx.restore();
- });
-
- document.getElementById('shopArea').textContent=sw*sh;
- document.getElementById('usedArea').textContent=Math.round(used);
- document.getElementById('fillInner').style.width=((used/(sw*sh))*100).toFixed(1)+'%';
-}
-
-let dragging=false,dx=0,dy=0;
-
-canvas.addEventListener('mousedown',e=>{
- const [sw,sh]=getShop();
- const ox=50,oy=50;
- const mx=(e.offsetX-ox)/scale;
- const my=(e.offsetY-oy)/scale;
-
- selected=null;
-
- items.forEach((it,i)=>{
-   if(mx>=it.x && mx<=it.x+it.w && my>=it.y && my<=it.y+it.h){
-      selected=i; dragging=true;
-      dx=mx-it.x; dy=my-it.y;
-   }
- });
-
- render();
+let used=0;
+items.forEach((it,i)=>{
+let d=defs[it.type];
+used+=it.w*it.h;
+ctx.fillStyle=d.color;
+ctx.fillRect(ox+it.x*scale,oy+it.y*scale,it.w*scale,it.h*scale);
+if(i===selected){ctx.strokeStyle='#000';ctx.strokeRect(ox+it.x*scale,oy+it.y*scale,it.w*scale,it.h*scale);}
+ctx.fillStyle='#000';ctx.fillText(it.type,ox+it.x*scale+2,oy+it.y*scale+12);
 });
+let pct=Math.round((used/(sw*sh))*100);
+usedEl.textContent=used;pctEl.textContent=pct+'%';fillInner.style.width=pct+'%';
+selectedInfo.textContent=selected==null?'None':items[selected].type+' ('+items[selected].w+"x"+items[selected].h+"')";
+}
+const usedEl=document.getElementById('used'),pctEl=document.getElementById('pct');
 
-canvas.addEventListener('mousemove',e=>{
- if(!dragging || selected===null) return;
- const ox=50,oy=50;
- const mx=(e.offsetX-ox)/scale;
- const my=(e.offsetY-oy)/scale;
- items[selected].x=Math.round(mx-dx);
- items[selected].y=Math.round(my-dy);
- render();
+canvas.onmousedown=e=>{
+let [sw,sh]=sizes[shopSize.value],ox=50,oy=50;
+let mx=(e.offsetX-ox)/scale,my=(e.offsetY-oy)/scale;
+selected=null;
+items.forEach((it,i)=>{
+if(mx>=it.x&&mx<=it.x+it.w&&my>=it.y&&my<=it.y+it.h){selected=i;drag=true;dx=mx-it.x;dy=my-it.y;}
 });
+render();
+};
+canvas.onmousemove=e=>{
+if(!drag||selected==null)return;
+let ox=50,oy=50,mx=(e.offsetX-ox)/scale,my=(e.offsetY-oy)/scale;
+let nx=mx-dx,ny=my-dy;
+if(document.getElementById('snap').checked){nx=Math.round(nx);ny=Math.round(ny);}
+items[selected].x=nx;items[selected].y=ny;render();
+};
+window.onmouseup=()=>drag=false;
 
-window.addEventListener('mouseup',()=>dragging=false);
+function rotateSelected(){if(selected==null)return;let t=items[selected].w;items[selected].w=items[selected].h;items[selected].h=t;render();}
+function deleteSelected(){if(selected==null)return;items.splice(selected,1);selected=null;render();}
+function saveLayout(){localStorage.setItem('gdv3',JSON.stringify(items));alert('Saved');}
+function loadLayout(){let d=localStorage.getItem('gdv3');if(d){items=JSON.parse(d);render();}}
 
-function rotateSelected(){
- if(selected===null) return;
- let t=items[selected].w;
- items[selected].w=items[selected].h;
- items[selected].h=t;
- render();
-}
-
-function deleteSelected(){
- if(selected===null) return;
- items.splice(selected,1);
- selected=null;
- render();
-}
-
-function saveLayout(){
- localStorage.setItem('gd-layout',JSON.stringify(items));
- alert('Layout saved');
-}
-
-function loadLayout(){
- const d=localStorage.getItem('gd-layout');
- if(d){items=JSON.parse(d);render();}
-}
-
-document.getElementById('shopSize').addEventListener('change',render);
+shopSize.onchange=render;
 render();
 </script>
 </body>
