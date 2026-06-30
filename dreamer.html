@@ -1,213 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Garage Dreaming - Dreamer V4</title>
-<style>
-:root{--bg:#08111d;--panel:#111f31;--panel2:#0d1a2b;--accent:#ff5c1b;--border:#23364f;}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#fff;display:flex;height:100vh}
-#side{width:330px;background:var(--panel);padding:12px;overflow:auto}
-#main{flex:1;display:flex;flex-direction:column}
-#top{background:var(--panel2);padding:8px;display:flex;gap:8px}
-.btn{background:var(--accent);border:none;color:#fff;padding:10px;border-radius:8px;font-weight:bold;cursor:pointer}
-.small{width:100%;margin:3px 0}
-.card{background:var(--panel2);padding:10px;border-radius:8px;margin-top:10px}
-#wrap{flex:1;overflow:auto}
-canvas{background:#d9d9d9;display:block;margin:20px auto;border:2px solid #444}
-
-@media (max-width: 900px){
-  body{display:block;height:auto}
-  #side{width:auto;max-height:none}
-  #main{width:100%}
-  #top{flex-wrap:wrap}
-  .btn{min-height:44px;font-size:16px}
-  #wrap{overflow:auto;padding:10px}
-  canvas{
-    width:100%;
-    height:auto;
-    max-width:1400px;
-    margin:10px auto;
-    touch-action:none;
-  }
-}
-
-</style>
-</head>
-<body>
-<div id="side">
-<h2>Garage Dreaming</h2>
-
-<select id="shopSize" class="small">
-<option>40x60</option><option>50x60</option><option>50x80</option><option>60x80</option>
-</select>
-
-<label><input type="checkbox" id="snap" checked> Snap To Grid</label><br>
-<label><input type="checkbox" id="showDims" checked> Show Dimensions</label><br>
-<label><input type="checkbox" id="showClear"> Show Clearances</label>
-
-<div class="card">
-<b>🚗 Vehicles</b><br>
-<button class="btn small" onclick="add('car')">Car</button>
-<button class="btn small" onclick="add('truck')">Truck</button>
-<button class="btn small" onclick="add('boat')">Boat</button>
-</div>
-
-<div class="card">
-<b>🏗 Structure</b><br>
-<button class="btn small" onclick="addDoor()">Overhead Door</button>
-<button class="btn small" onclick="addWindow()">Window</button>
-</div>
-
-<div class="card">
-<b>Inspector</b>
-<div id="info">None</div>
-<button class="btn small" onclick="rotate()">Rotate</button>
-<button class="btn small" onclick="resizePlus()">Size +</button>
-<button class="btn small" onclick="resizeMinus()">Size -</button>
-<button class="btn small" onclick="removeItem()">Delete</button>
-</div>
-
-<div class="card">
-<b>Property</b><br>
-Width <input id="lotW" value="100" style="width:60px">
-Depth <input id="lotD" value="150" style="width:60px">
-<button class="btn small" onclick="render()">Update Lot</button>
-</div>
-
-<div class="card">
-<button class="btn small" onclick="saveLayout()">Save</button>
-<button class="btn small" onclick="loadLayout()">Load</button>
-</div>
-</div>
-
-<div id="main">
-<div id="top">
-<button class="btn">Browse Inspiration</button>
-<button class="btn">Dreamer</button>
-</div>
-<div id="wrap">
-<canvas id="c" width="1400" height="900"></canvas>
-</div>
-</div>
-
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Garage Dreaming - Dreamer V8</title><style>
+:root{--bg:#08111d;--panel:#111f31;--panel2:#0d1a2b;--accent:#ff5c1b;--border:#23364f;--muted:#9db0c8}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:white;display:flex;height:100vh;overflow:hidden}#side{width:350px;background:var(--panel);padding:12px;overflow:auto}#main{flex:1;display:flex;flex-direction:column}#top{background:var(--panel2);padding:8px}.btn{background:var(--accent);border:0;color:white;padding:10px;border-radius:8px;font-weight:bold;cursor:pointer}.small{width:100%;margin:4px 0}.card{background:var(--panel2);padding:10px;border-radius:8px;margin-top:10px;border:1px solid var(--border)}#wrap{flex:1;overflow:hidden}canvas{background:#d9d9d9;display:block}#info,#utilization,.hint{color:var(--muted);font-size:13px;line-height:1.45}select{width:100%;padding:8px;background:#08111d;color:white;border:1px solid var(--border);border-radius:6px}
+</style></head><body><div id="side"><h2>Garage Dreaming V8</h2><div class="card"><select id="shopSize"><option>40x60</option><option>50x60</option><option>50x80</option><option>60x80</option></select><label><input type="checkbox" id="snap" checked> Snap To Grid</label><br><label><input type="checkbox" id="showDims" checked> Show Dimensions</label><br><label><input type="checkbox" id="showClear"> Show Working Areas</label></div>
+<div class="card"><b>Vehicles</b><button class="btn small" onclick="add('car')">Car</button><button class="btn small" onclick="add('truck')">Truck</button><button class="btn small" onclick="add('boat')">Boat</button><button class="btn small" onclick="add('motorcycle')">Motorcycle</button><button class="btn small" onclick="add('sxs')">Side by Side</button><button class="btn small" onclick="add('wakeboat')">Wake Boat</button><button class="btn small" onclick="add('bassboat')">Bass Boat</button></div>
+<div class="card"><b>Shop</b><button class="btn small" onclick="add('lift')">2 Post Lift</button><button class="btn small" onclick="add('workbench')">Workbench</button><button class="btn small" onclick="add('toolbox')">Toolbox</button><button class="btn small" onclick="add('compressor')">Compressor</button></div>
+<div class="card"><b>Structure</b><button class="btn small" onclick="addDoor()">Overhead Door</button><button class="btn small" onclick="addWindow()">Window</button></div>
+<div class="card"><b>Rooms</b><button class="btn small" onclick="add('office')">Office</button><button class="btn small" onclick="add('bathroom')">Bathroom</button><button class="btn small" onclick="add('stairs')">Stairs</button><button class="btn small" onclick="add('simulator')">Golf Simulator</button><button class="btn small" onclick="add('bar')">Bar</button><button class="btn small" onclick="add('couch')">Couch</button></div>
+<div class="card"><b>Landscaping</b><button class="btn small" onclick="add('tree')">Tree</button><button class="btn small" onclick="add('bush')">Bush</button><button class="btn small" onclick="add('flowerbed')">Flower Bed</button><button class="btn small" onclick="add('firepit')">Fire Pit</button><button class="btn small" onclick="add('grill')">BBQ Grill</button><button class="btn small" onclick="add('driveway')">Driveway</button><button class="btn small" onclick="add('parking')">Parking Pad</button></div>
+<div class="card"><b>Shop Utilization</b><div id="utilization">0%</div></div><div class="card"><b>Inspector</b><div id="info">None Selected</div><div class="hint">Hover an item for Rotate, Duplicate, Delete. Drag the orange lower-right handle to resize.</div></div><div class="card"><b>Layouts</b><button class="btn small" onclick="saveNamed()">Save Layout</button><button class="btn small" onclick="loadNamed()">Load Layout</button></div><div class="card"><b>View</b><button class="btn small" onclick="resetView()">Reset View</button><button class="btn small" onclick="exportPNG()">Export PNG</button><div class="hint">Mouse wheel zoom. Drag empty space to pan.</div></div></div>
+<div id="main"><div id="top"><button class="btn">Browse Inspiration</button> <button class="btn">Dreamer</button> <span id="viewStatus" class="hint"></span></div><div id="wrap"><canvas id="c"></canvas></div></div>
 <script>
-const c=document.getElementById('c'),ctx=c.getContext('2d');
-const scale=10;
-const sizes={"40x60":[40,60],"50x60":[50,60],"50x80":[50,80],"60x80":[60,80]};
-const defs={
-car:{w:8,h:16,color:"#5fa8ff"},
-truck:{w:8,h:20,color:"#4dd4ac"},
-boat:{w:10,h:28,color:"#5fa8ff"},
-door:{w:14,h:1,color:"#77dd77",wall:true},
-window:{w:6,h:1,color:"#77dd77",wall:true}
-};
-let items=[],selected=null,zoom=1;
-
-function add(t){let d=defs[t];items.push({type:t,x:2,y:2,w:d.w,h:d.h});render();}
-function addDoor(){items.push({type:'door',x:5,y:0,w:14,h:1});render();}
-function addWindow(){items.push({type:'window',x:25,y:0,w:6,h:1});render();}
-
-function render(){
-ctx.clearRect(0,0,c.width,c.height);
-let [sw,sh]=sizes[shopSize.value];
-let ox=120,oy=120;
-
-let lotW=parseInt(lotWEl.value),lotD=parseInt(lotDEl.value);
-
-ctx.strokeStyle="#666";
-ctx.strokeRect(20,20,lotW*4,lotD*4);
-ctx.fillStyle="#aaa";
-ctx.fillText("Property "+lotW+"' x "+lotD+"'",25,15);
-
-for(let x=0;x<=sw;x++){ctx.beginPath();ctx.moveTo(ox+x*scale,oy);ctx.lineTo(ox+x*scale,oy+sh*scale);ctx.strokeStyle="#bbb";ctx.stroke();}
-for(let y=0;y<=sh;y++){ctx.beginPath();ctx.moveTo(ox,oy+y*scale);ctx.lineTo(ox+sw*scale,oy+y*scale);ctx.stroke();}
-
-ctx.strokeStyle="#222";ctx.lineWidth=3;
-ctx.strokeRect(ox,oy,sw*scale,sh*scale);
-
-items.forEach((it,i)=>{
-let d=defs[it.type];
-ctx.fillStyle=d.color;
-ctx.fillRect(ox+it.x*scale,oy+it.y*scale,it.w*scale,it.h*scale);
-
-if(document.getElementById('showClear').checked && ['car','truck','boat'].includes(it.type)){
-ctx.strokeStyle='rgba(255,100,0,.5)';
-ctx.strokeRect(ox+(it.x-2)*scale,oy+(it.y-2)*scale,(it.w+4)*scale,(it.h+4)*scale);
-}
-
-if(i===selected){
-ctx.strokeStyle="#000";
-ctx.strokeRect(ox+it.x*scale,oy+it.y*scale,it.w*scale,it.h*scale);
-}
-
-ctx.fillStyle="#000";
-ctx.fillText(it.type,ox+it.x*scale+2,oy+it.y*scale+12);
-
-if(showDims.checked){
-ctx.fillText(it.w+"'x"+it.h+"'",ox+it.x*scale+2,oy+it.y*scale+24);
-}
-});
-
-info.textContent = selected==null ? "None" : JSON.stringify(items[selected]);
-}
-
-let drag=false,dx=0,dy=0;
-c.onmousedown=e=>{
-let ox=120,oy=120,mx=(e.offsetX-ox)/scale,my=(e.offsetY-oy)/scale;
-selected=null;
-items.forEach((it,i)=>{
-if(mx>=it.x&&mx<=it.x+it.w&&my>=it.y&&my<=it.y+it.h){selected=i;drag=true;dx=mx-it.x;dy=my-it.y;}
-});
-render();
-};
-c.onmousemove=e=>{
-if(!drag||selected==null)return;
-let ox=120,oy=120,mx=(e.offsetX-ox)/scale,my=(e.offsetY-oy)/scale;
-let nx=mx-dx,ny=my-dy;
-if(snap.checked){nx=Math.round(nx);ny=Math.round(ny);}
-items[selected].x=nx;items[selected].y=ny;
-render();
-};
-window.onmouseup=()=>drag=false;
-
-function rotate(){if(selected==null)return;let t=items[selected].w;items[selected].w=items[selected].h;items[selected].h=t;render();}
-function resizePlus(){if(selected==null)return;items[selected].w+=1;render();}
-function resizeMinus(){if(selected==null)return;items[selected].w=Math.max(1,items[selected].w-1);render();}
-function removeItem(){if(selected==null)return;items.splice(selected,1);selected=null;render();}
-
-function saveLayout(){localStorage.setItem('gdv4',JSON.stringify(items));}
-function loadLayout(){let d=localStorage.getItem('gdv4');if(d){items=JSON.parse(d);render();}}
-
-const lotWEl=document.getElementById('lotW');
-const lotDEl=document.getElementById('lotD');
-shopSize.onchange=render;
-render();
-
-function getPos(evt){
- const r=c.getBoundingClientRect();
- const t=evt.touches?evt.touches[0]:evt;
- return {
-   offsetX:(t.clientX-r.left)*(c.width/r.width),
-   offsetY:(t.clientY-r.top)*(c.height/r.height)
- };
-}
-c.addEventListener('touchstart',e=>{
- e.preventDefault();
- const p=getPos(e);
- c.onmousedown({offsetX:p.offsetX,offsetY:p.offsetY});
-},{passive:false});
-
-c.addEventListener('touchmove',e=>{
- e.preventDefault();
- const p=getPos(e);
- c.onmousemove({offsetX:p.offsetX,offsetY:p.offsetY});
-},{passive:false});
-
-c.addEventListener('touchend',e=>{
- drag=false;
-},{passive:false});
-
-</script>
-</body>
-</html>
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d'),wrap=document.getElementById('wrap');function resizeCanvas(){canvas.width=wrap.clientWidth;canvas.height=wrap.clientHeight;render()}window.addEventListener('resize',resizeCanvas);const scale=12;let zoom=1,panX=180,panY=150,selected=null,hoverIndex=null,drag=false,panning=false,resizing=false,dx=0,dy=0;const sizes={"40x60":[40,60],"50x60":[50,60],"50x80":[50,80],"60x80":[60,80]},propertyTypes=['tree','bush','flowerbed','firepit','grill','driveway','parking'];
+const defs={car:[8,16,'#5fa8ff','Car'],truck:[8,20,'#4dd4ac','Truck'],boat:[10,28,'#5fa8ff','Boat'],motorcycle:[3,8,'#5fa8ff','Motorcycle'],sxs:[6,10,'#5fa8ff','Side by Side'],wakeboat:[10,30,'#5fa8ff','Wake Boat'],bassboat:[9,22,'#5fa8ff','Bass Boat'],lift:[12,22,'#ff7b72','2 Post Lift'],workbench:[3,8,'#ff7b72','Workbench'],toolbox:[3,6,'#ff7b72','Toolbox'],compressor:[3,3,'#ff7b72','Compressor'],door:[14,1,'#77dd77','Overhead Door'],window:[6,1,'#77dd77','Window'],office:[12,12,'#bbb','Office'],bathroom:[8,8,'#ccc','Bathroom'],stairs:[6,10,'#999','Stairs'],simulator:[15,20,'#b07cff','Golf Sim'],bar:[8,4,'#c98a3d','Bar'],couch:[8,4,'#8a6cff','Couch'],tree:[6,6,'#228b22','Tree'],bush:[4,4,'#3cb371','Bush'],flowerbed:[8,3,'#ff69b4','Flower Bed'],firepit:[5,5,'#ff4500','Fire Pit'],grill:[3,3,'#444','BBQ Grill'],driveway:[24,12,'#777','Driveway'],parking:[20,18,'#888','Parking Pad']};let items=[];
+function d(t){return{w:defs[t][0],h:defs[t][1],color:defs[t][2],label:defs[t][3]}}function shop(){return sizes[shopSize.value]}function isProp(it){return it.layer==='property'||propertyTypes.includes(it.type)}function add(t){let dd=d(t),layer=propertyTypes.includes(t)?'property':'building';items.push({type:t,x:layer==='property'?-12:2,y:layer==='property'?-10:2,w:dd.w,h:dd.h,layer});render()}function addDoor(){items.push({type:'door',x:5,y:0,w:14,h:1,layer:'building'});render()}function addWindow(){items.push({type:'window',x:25,y:0,w:6,h:1,layer:'building'});render()}function sx(x){return panX+x*scale*zoom}function sy(y){return panY+y*scale*zoom}function wx(x){return(x-panX)/(scale*zoom)}function wy(y){return(y-panY)/(scale*zoom)}
+function drawGrid(sw,sh){let m=25;ctx.save();ctx.strokeStyle='#6c7a89';ctx.setLineDash([8,6]);ctx.strokeRect(sx(-m),sy(-m),(sw+m*2)*scale*zoom,(sh+m*2)*scale*zoom);ctx.setLineDash([]);ctx.fillStyle='#6c7a89';ctx.fillText('Property / outdoor planning area',sx(-m)+8,sy(-m)+18);ctx.restore();ctx.strokeStyle='#bbb';ctx.lineWidth=1;for(let x=0;x<=sw;x++){ctx.beginPath();ctx.moveTo(sx(x),sy(0));ctx.lineTo(sx(x),sy(sh));ctx.stroke()}for(let y=0;y<=sh;y++){ctx.beginPath();ctx.moveTo(sx(0),sy(y));ctx.lineTo(sx(sw),sy(y));ctx.stroke()}ctx.strokeStyle='#222';ctx.lineWidth=3;ctx.strokeRect(sx(0),sy(0),sw*scale*zoom,sh*scale*zoom)}
+function workArea(it,x,y,w,h){ctx.save();ctx.strokeStyle='rgba(255,92,27,.75)';ctx.fillStyle='rgba(255,92,27,.08)';ctx.setLineDash([6,4]);let px=2,py=2,label='Work area';if(it.type==='lift'){px=3;py=4;label='Lift clearance'}else if(['boat','wakeboat','bassboat'].includes(it.type)){px=4;py=6;label='Trailer space'}else if(it.type==='simulator'){px=0;py=0;label='Golf sim room'}ctx.fillRect(x-px*scale*zoom,y-py*scale*zoom,w+px*2*scale*zoom,h+py*2*scale*zoom);ctx.strokeRect(x-px*scale*zoom,y-py*scale*zoom,w+px*2*scale*zoom,h+py*2*scale*zoom);ctx.fillStyle='#8b350e';ctx.fillText(label,x,y-8);ctx.restore()}
+function itemShape(it,x,y,w,h){let dd=d(it.type);ctx.fillStyle=dd.color;ctx.strokeStyle='#222';ctx.lineWidth=1;if(['tree','bush','firepit'].includes(it.type)){ctx.beginPath();ctx.arc(x+w/2,y+h/2,Math.min(w,h)/2,0,Math.PI*2);ctx.fill();ctx.stroke()}else if(['boat','wakeboat','bassboat'].includes(it.type)){ctx.beginPath();ctx.moveTo(x+w/2,y);ctx.lineTo(x+w,y+h*.25);ctx.lineTo(x+w*.85,y+h);ctx.lineTo(x+w*.15,y+h);ctx.lineTo(x,y+h*.25);ctx.closePath();ctx.fill();ctx.stroke()}else{ctx.fillRect(x,y,w,h);ctx.strokeRect(x,y,w,h)}}
+function controls(it,i,x,y){if(i!==selected&&i!==hoverIndex)return;let s=22,g=4,bs=[['rotate','R'],['duplicate','C'],['delete','X']];it._controls=[];bs.forEach((b,k)=>{let bx=x+k*(s+g),by=y-28;ctx.fillStyle=b[0]==='delete'?'#b33':'#ff5c1b';ctx.fillRect(bx,by,s,s);ctx.strokeStyle='#111';ctx.strokeRect(bx,by,s,s);ctx.fillStyle='#fff';ctx.fillText(b[1],bx+7,by+15);it._controls.push({action:b[0],x:bx,y:by,w:s,h:s})})}
+function render(){if(!ctx)return;ctx.clearRect(0,0,canvas.width,canvas.height);let[sw,sh]=shop();drawGrid(sw,sh);let used=0;items.forEach((it,i)=>{if(!isProp(it))used+=it.w*it.h;let x=sx(it.x),y=sy(it.y),w=it.w*scale*zoom,h=it.h*scale*zoom;if(showClear.checked&&!isProp(it))workArea(it,x,y,w,h);itemShape(it,x,y,w,h);if(i===selected){ctx.strokeStyle='#000';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);ctx.fillStyle='#ff5c1b';ctx.fillRect(x+w-8,y+h-8,16,16)}controls(it,i,x,y);ctx.fillStyle='#000';ctx.font='12px Arial';ctx.fillText(d(it.type).label,x+4,y+14);if(showDims.checked)ctx.fillText(it.w+"' x "+it.h+"'",x+4,y+28)});utilization.innerHTML=`${Math.round(used/(sw*sh)*100)}% Used<br>${used} / ${sw*sh} sq ft<br><span style="color:#9db0c8">Outdoor items excluded</span>`;info.textContent=selected==null?'None Selected':`${d(items[selected].type).label} | ${items[selected].w}' x ${items[selected].h}' | ${isProp(items[selected])?'Property':'Building'} layer`;viewStatus.textContent=`Zoom ${Math.round(zoom*100)}%`}
+function findItem(mx,my){for(let i=items.length-1;i>=0;i--){let it=items[i];if(mx>=it.x&&mx<=it.x+it.w&&my>=it.y&&my<=it.y+it.h)return i}return null}function findControl(px,py){for(let i=items.length-1;i>=0;i--){let it=items[i];if(!it._controls)continue;for(let c of it._controls)if(px>=c.x&&px<=c.x+c.w&&py>=c.y&&py<=c.y+c.h)return{index:i,action:c.action}}return null}function overHandle(px,py,it){let x=sx(it.x),y=sy(it.y),w=it.w*scale*zoom,h=it.h*scale*zoom;return px>=x+w-12&&px<=x+w+12&&py>=y+h-12&&py<=y+h+12}
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoom+=e.deltaY<0?.1:-.1;zoom=Math.max(.4,Math.min(3,zoom));render()});canvas.onmousedown=e=>{let c=findControl(e.offsetX,e.offsetY);if(c){selected=c.index;if(c.action==='rotate')rotateItem();if(c.action==='duplicate')duplicateItem();if(c.action==='delete')deleteItem();return}let mx=wx(e.offsetX),my=wy(e.offsetY);if(selected!=null&&overHandle(e.offsetX,e.offsetY,items[selected])){resizing=true;return}selected=findItem(mx,my);if(selected!=null){drag=true;dx=mx-items[selected].x;dy=my-items[selected].y}else{panning=true;dx=e.offsetX;dy=e.offsetY}render()};
+canvas.onmousemove=e=>{let mx=wx(e.offsetX),my=wy(e.offsetY);hoverIndex=findItem(mx,my);canvas.style.cursor=selected!=null&&overHandle(e.offsetX,e.offsetY,items[selected])?'nwse-resize':'default';if(resizing&&selected!=null){let it=items[selected],nw=mx-it.x,nh=my-it.y;if(snap.checked){nw=Math.round(nw);nh=Math.round(nh)}it.w=Math.max(1,nw);it.h=Math.max(1,nh);let[sw,sh]=shop();if(!isProp(it)){it.w=Math.min(it.w,sw-it.x);it.h=Math.min(it.h,sh-it.y)}render();return}if(drag&&selected!=null){let it=items[selected],nx=mx-dx,ny=my-dy;if(snap.checked){nx=Math.round(nx);ny=Math.round(ny)}let[sw,sh]=shop();if(!isProp(it)){nx=Math.max(0,Math.min(sw-it.w,nx));ny=Math.max(0,Math.min(sh-it.h,ny))}it.x=nx;it.y=ny;render();return}if(panning){panX+=e.offsetX-dx;panY+=e.offsetY-dy;dx=e.offsetX;dy=e.offsetY;render();return}render()};window.onmouseup=()=>{drag=false;panning=false;resizing=false};
+function rotateItem(){if(selected==null)return;let it=items[selected],t=it.w;it.w=it.h;it.h=t;let[sw,sh]=shop();if(!isProp(it)){it.x=Math.max(0,Math.min(sw-it.w,it.x));it.y=Math.max(0,Math.min(sh-it.h,it.y))}render()}function duplicateItem(){if(selected==null)return;let c=JSON.parse(JSON.stringify(items[selected]));delete c._controls;c.x+=2;c.y+=2;items.push(c);selected=items.length-1;render()}function deleteItem(){if(selected==null)return;items.splice(selected,1);selected=null;render()}function resetView(){zoom=1;panX=180;panY=150;render()}function exportPNG(){let a=document.createElement('a');a.download='garage-dreaming-layout.png';a.href=canvas.toDataURL('image/png');a.click()}function saveNamed(){let name=prompt('Layout name?','Dream Shop');if(!name)return;localStorage.setItem('gd_'+name,JSON.stringify(items.map(({_controls,...rest})=>rest)));alert('Saved '+name)}function loadNamed(){let name=prompt('Load which layout?');if(!name)return;let saved=localStorage.getItem('gd_'+name);if(saved){items=JSON.parse(saved);render()}else alert('Not found')}shopSize.onchange=render;showClear.onchange=render;showDims.onchange=render;resizeCanvas();
+</script></body></html>
