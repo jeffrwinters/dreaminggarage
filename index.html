@@ -12,7 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
     --bg:#08111d;
     --bg2:#0d1a2b;
@@ -39,10 +38,6 @@ body{
     color:var(--text);
     font-family:'Inter',sans-serif;
     line-height:1.6;
-}
-
-body.menu-open{
-    overflow:hidden;
 }
 
 .container{
@@ -78,6 +73,12 @@ header{
     color:var(--accent);
 }
 
+.menu-toggle-input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+}
+
 .menu-toggle{
     display:none;
     width:44px;
@@ -91,6 +92,9 @@ header{
     justify-content:center;
     flex-direction:column;
     gap:5px;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+    user-select:none;
 }
 
 .menu-toggle span{
@@ -99,18 +103,6 @@ header{
     height:2px;
     background:white;
     transition:.2s;
-}
-
-.menu-toggle[aria-expanded="true"] span:nth-child(1){
-    transform:translateY(7px) rotate(45deg);
-}
-
-.menu-toggle[aria-expanded="true"] span:nth-child(2){
-    opacity:0;
-}
-
-.menu-toggle[aria-expanded="true"] span:nth-child(3){
-    transform:translateY(-7px) rotate(-45deg);
 }
 
 .nav-links{
@@ -350,78 +342,91 @@ footer{
 }
 
 @media(max-width:900px){
+    .nav{
+        position:relative;
+    }
 
-.nav{
-    position:relative;
+    .menu-toggle{
+        display:flex;
+        position:relative;
+        z-index:1001;
+    }
+
+    .nav-links{
+        position:absolute;
+        top:calc(100% + 10px);
+        left:0;
+        right:0;
+        display:none;
+        flex-direction:column;
+        gap:0;
+        background:var(--panel);
+        border:1px solid var(--border);
+        border-radius:12px;
+        overflow:hidden;
+        box-shadow:0 18px 40px rgba(0,0,0,.35);
+        z-index:1000;
+    }
+
+    .menu-toggle-input:checked ~ .menu-toggle span:nth-child(1){
+        transform:translateY(7px) rotate(45deg);
+    }
+
+    .menu-toggle-input:checked ~ .menu-toggle span:nth-child(2){
+        opacity:0;
+    }
+
+    .menu-toggle-input:checked ~ .menu-toggle span:nth-child(3){
+        transform:translateY(-7px) rotate(-45deg);
+    }
+
+    .menu-toggle-input:checked ~ .nav-links{
+        display:flex;
+    }
+
+    .nav-links.open{
+        display:flex;
+    }
+
+    .nav-links a{
+        padding:16px 20px;
+        border-bottom:1px solid var(--border);
+    }
+
+    .nav-links a:last-child{
+        border-bottom:0;
+    }
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:4rem;
+    }
+
+    .hero-image{
+        height:350px;
+    }
+
+    .floorplans{
+        grid-template-columns:1fr;
+    }
 }
-
-.menu-toggle{
-    display:flex;
-}
-
-.nav-links{
-    position:absolute;
-    top:100%;
-    left:2.5%;
-    right:2.5%;
-    display:none;
-    flex-direction:column;
-    gap:0;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 18px 40px rgba(0,0,0,.35);
-}
-
-.nav-links.open{
-    display:flex;
-}
-
-.nav-links a{
-    padding:16px 20px;
-    border-bottom:1px solid var(--border);
-}
-
-.nav-links a:last-child{
-    border-bottom:0;
-}
-
-.hero-grid{
-    grid-template-columns:1fr;
-}
-
-.hero h1{
-    font-size:4rem;
-}
-
-.hero-image{
-    height:350px;
-}
-
-.floorplans{
-    grid-template-columns:1fr;
-}
-
-}
-
 </style>
 </head>
 <body>
 
 <header>
-
 <div class="container nav">
+<div class="logo">Garage <span>Dreaming</span></div>
 
-<div class="logo">
-Garage <span>Dreaming</span>
-</div>
-
-<button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation">
+<input class="menu-toggle-input" id="menu-toggle" type="checkbox" aria-hidden="true">
+<label class="menu-toggle" for="menu-toggle" aria-label="Toggle menu" role="button">
 <span></span>
 <span></span>
 <span></span>
-</button>
+</label>
 
 <nav class="nav-links" id="primary-navigation">
 <a href="#inspiration">Inspiration</a>
@@ -429,189 +434,69 @@ Garage <span>Dreaming</span>
 <a href="#ideas">Design Ideas</a>
 <a href="#community">Submit Build</a>
 </nav>
-
 </div>
-
 </header>
 
 <section class="hero">
-
 <div class="container">
-
 <div class="hero-grid">
-
 <div>
-
-<h1>
-GARAGE<br>
-<span>DREAMING</span>
-</h1>
-
-<div class="hero-tagline">
-Where dream garages take shape.
-</div>
-
+<h1>GARAGE<br><span>DREAMING</span></h1>
+<div class="hero-tagline">Where dream garages take shape.</div>
 <p>
 Explore dream shops, garages, workshops, hangars, golf simulator buildings,
 man caves, and shop houses from across the country. Save ideas, compare layouts,
 discover floorplans, and start planning the ultimate space.
 </p>
-
 <div class="hero-buttons">
 <a href="#inspiration" class="btn btn-primary">Browse Inspiration</a>
 <a href="#floorplans" class="btn btn-secondary">View Floorplans</a>
 </div>
-
 </div>
-
 <div class="hero-image"></div>
-
 </div>
-
 </div>
-
 </section>
 
 <section class="section" id="inspiration">
-
 <div class="container">
-
 <h2 class="section-title">Featured Builds</h2>
-
-<p class="section-sub">
-Real-world garages, shops, hangars, and dream spaces from builders and owners.
-</p>
-
+<p class="section-sub">Real-world garages, shops, hangars, and dream spaces from builders and owners.</p>
 <div class="gallery">
-
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h3>40x60 Modern Black Shop</h3>
-<p>16' Walls • 3 Bays • Covered Porch</p>
+<div class="gallery-item"><div class="gallery-image"></div><div class="gallery-info"><h3>40x60 Modern Black Shop</h3><p>16' Walls • 3 Bays • Covered Porch</p></div></div>
+<div class="gallery-item"><div class="gallery-image"></div><div class="gallery-info"><h3>50x80 Dream Shop</h3><p>Lift Ready • Office • Golf Simulator</p></div></div>
+<div class="gallery-item"><div class="gallery-image"></div><div class="gallery-info"><h3>Lake Toy Garage</h3><p>Boat Storage • Workshop • Loft</p></div></div>
+<div class="gallery-item"><div class="gallery-image"></div><div class="gallery-info"><h3>Aviation Hangar</h3><p>Aircraft Storage • Office • Lounge</p></div></div>
+<div class="gallery-item"><div class="gallery-image"></div><div class="gallery-info"><h3>Woodworking Shop</h3><p>Dedicated Workspace • Dust Collection</p></div></div>
+<div class="gallery-item"><div class="gallery-image"></div><div class="gallery-info"><h3>Shop House</h3><p>Living Quarters • Shop Space • Porch</p></div></div>
 </div>
 </div>
-
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h3>50x80 Dream Shop</h3>
-<p>Lift Ready • Office • Golf Simulator</p>
-</div>
-</div>
-
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h3>Lake Toy Garage</h3>
-<p>Boat Storage • Workshop • Loft</p>
-</div>
-</div>
-
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h3>Aviation Hangar</h3>
-<p>Aircraft Storage • Office • Lounge</p>
-</div>
-</div>
-
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h3>Woodworking Shop</h3>
-<p>Dedicated Workspace • Dust Collection</p>
-</div>
-</div>
-
-<div class="gallery-item">
-<div class="gallery-image"></div>
-<div class="gallery-info">
-<h3>Shop House</h3>
-<p>Living Quarters • Shop Space • Porch</p>
-</div>
-</div>
-
-</div>
-
-</div>
-
 </section>
 
 <section class="section">
-
 <div class="container">
-
 <h2 class="section-title">Browse By Dream</h2>
-
-<p class="section-sub">
-Find inspiration based on how you want to use your space.
-</p>
-
+<p class="section-sub">Find inspiration based on how you want to use your space.</p>
 <div class="category-grid">
-
-<div class="card">
-<h3>Car Garages</h3>
-<p>Lifts, detailing bays, storage systems and dream car collections.</p>
+<div class="card"><h3>Car Garages</h3><p>Lifts, detailing bays, storage systems and dream car collections.</p></div>
+<div class="card"><h3>Dream Shops</h3><p>General purpose workshops built for projects and hobbies.</p></div>
+<div class="card"><h3>Boat Garages</h3><p>Designed around lake life, toys and large boat storage.</p></div>
+<div class="card"><h3>Golf Simulator Buildings</h3><p>Entertainment-focused layouts and indoor golf spaces.</p></div>
+<div class="card"><h3>Woodworking Shops</h3><p>Purpose-built workspaces for craftsmen and makers.</p></div>
+<div class="card"><h3>Aviation Hangars</h3><p>Aircraft storage, pilot lounges and workshop combinations.</p></div>
+<div class="card"><h3>Shop Houses</h3><p>Combining living space with large workshops and garages.</p></div>
+<div class="card"><h3>Barndominiums</h3><p>Large open structures designed for work and lifestyle.</p></div>
 </div>
-
-<div class="card">
-<h3>Dream Shops</h3>
-<p>General purpose workshops built for projects and hobbies.</p>
 </div>
-
-<div class="card">
-<h3>Boat Garages</h3>
-<p>Designed around lake life, toys and large boat storage.</p>
-</div>
-
-<div class="card">
-<h3>Golf Simulator Buildings</h3>
-<p>Entertainment-focused layouts and indoor golf spaces.</p>
-</div>
-
-<div class="card">
-<h3>Woodworking Shops</h3>
-<p>Purpose-built workspaces for craftsmen and makers.</p>
-</div>
-
-<div class="card">
-<h3>Aviation Hangars</h3>
-<p>Aircraft storage, pilot lounges and workshop combinations.</p>
-</div>
-
-<div class="card">
-<h3>Shop Houses</h3>
-<p>Combining living space with large workshops and garages.</p>
-</div>
-
-<div class="card">
-<h3>Barndominiums</h3>
-<p>Large open structures designed for work and lifestyle.</p>
-</div>
-
-</div>
-
-</div>
-
 </section>
 
 <section class="section" id="floorplans">
-
 <div class="container">
-
 <h2 class="section-title">Popular Floorplans</h2>
-
-<p class="section-sub">
-Layouts people are building, saving and modifying.
-</p>
-
+<p class="section-sub">Layouts people are building, saving and modifying.</p>
 <div class="floorplans">
-
 <div class="plan">
-
 <h3>40x60 Shop + Woodshop</h3>
-
 <pre>
 -----------------------------------
 |                                 |
@@ -625,13 +510,9 @@ Layouts people are building, saving and modifying.
 | Bath  Stairs   Office         |
 -----------------------------------
 </pre>
-
 </div>
-
 <div class="plan">
-
 <h3>50x80 Dream Shop</h3>
-
 <pre>
 -----------------------------------
 | Lift   Lift    Boat Storage     |
@@ -642,125 +523,53 @@ Layouts people are building, saving and modifying.
 | Office  Bar  Golf Simulator    |
 -----------------------------------
 </pre>
-
 </div>
-
 </div>
-
 </div>
-
 </section>
 
 <section class="section" id="ideas">
-
 <div class="container">
-
 <h2 class="section-title">Design Ideas</h2>
-
-<p class="section-sub">
-Explore the features people obsess over when planning their dream garage.
-</p>
-
+<p class="section-sub">Explore the features people obsess over when planning their dream garage.</p>
 <div class="feature-grid">
-
-<div class="feature">
-<h3>Wall Height Comparisons</h3>
-<p>12', 14', 16', and 18' walls shown side-by-side.</p>
+<div class="feature"><h3>Wall Height Comparisons</h3><p>12', 14', 16', and 18' walls shown side-by-side.</p></div>
+<div class="feature"><h3>Door Size Explorer</h3><p>Compare overhead door widths and heights using real examples.</p></div>
+<div class="feature"><h3>Lift-Friendly Layouts</h3><p>See how builders position lifts, workbenches and storage.</p></div>
+<div class="feature"><h3>Office & Loft Concepts</h3><p>Browse ideas for offices, lofts, lounges and future apartments.</p></div>
+<div class="feature"><h3>Golf Simulator Rooms</h3><p>Ceiling heights, dimensions and projector placement ideas.</p></div>
+<div class="feature"><h3>Boat & RV Storage</h3><p>High-clearance designs built around larger toys.</p></div>
 </div>
-
-<div class="feature">
-<h3>Door Size Explorer</h3>
-<p>Compare overhead door widths and heights using real examples.</p>
 </div>
-
-<div class="feature">
-<h3>Lift-Friendly Layouts</h3>
-<p>See how builders position lifts, workbenches and storage.</p>
-</div>
-
-<div class="feature">
-<h3>Office & Loft Concepts</h3>
-<p>Browse ideas for offices, lofts, lounges and future apartments.</p>
-</div>
-
-<div class="feature">
-<h3>Golf Simulator Rooms</h3>
-<p>Ceiling heights, dimensions and projector placement ideas.</p>
-</div>
-
-<div class="feature">
-<h3>Boat & RV Storage</h3>
-<p>High-clearance designs built around larger toys.</p>
-</div>
-
-</div>
-
-</div>
-
 </section>
 
 <section class="section cta" id="community">
-
 <div class="container">
-
 <h2>Share Your Dream Garage</h2>
-
-<p>
-Future community section for showcasing builds, floorplans,
-photos, lessons learned and ideas.
-</p>
-
+<p>Future community section for showcasing builds, floorplans, photos, lessons learned and ideas.</p>
 <a href="#" class="btn btn-primary">Submit Your Build</a>
-
 </div>
-
 </section>
 
 <footer>
-
 <div class="container">
-
 <strong>Garage Dreaming</strong>
-
 <br><br>
-
 Inspiration for shops, garages, hangars & man caves.
-
 <br><br>
-
 © 2026 GarageDreaming.com
-
 </div>
-
 </footer>
 
 <script>
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
+const menuCheckbox = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('primary-navigation');
 
-if (menuToggle && navLinks) {
-    const closeMenu = () => {
-        navLinks.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-label', 'Open menu');
-        document.body.classList.remove('menu-open');
-    };
-
-    menuToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('open');
-        menuToggle.setAttribute('aria-expanded', String(isOpen));
-        menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-        document.body.classList.toggle('menu-open', isOpen);
-    });
-
+if (menuCheckbox && navLinks) {
     navLinks.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', closeMenu);
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            closeMenu();
-        }
+        link.addEventListener('click', () => {
+            menuCheckbox.checked = false;
+        });
     });
 }
 </script>
