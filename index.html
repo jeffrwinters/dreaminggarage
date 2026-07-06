@@ -6,7 +6,7 @@
 
 <title>Garage Dreaming | Inspiration for Shops, Garages, Hangars & Man Caves</title>
 
-<meta name="description" content="Browse dream shops, garages, hangars, workshops, golf simulator buildings, and man caves. Discover layouts, floorplans, design ideas, and inspiration for your next project.">
+<meta name="description" content="Browse dream shops, garages, hangars, workshops, golf simulator buildings, and man caves. Discover layouts, floorplans, design ideas, cost estimates, and inspiration for your next project.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -21,6 +21,7 @@
     --text:#ffffff;
     --muted:#9db0c8;
     --border:#23364f;
+    --good:#8fd0ff;
 }
 
 *{
@@ -228,12 +229,6 @@ header{
     background:#22344d;
 }
 
-.gallery-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
 .gallery-info{
     padding:20px;
 }
@@ -291,9 +286,132 @@ header{
 }
 
 .plan pre{
-    color:#8fd0ff;
+    color:var(--good);
     overflow:auto;
     font-size:.8rem;
+}
+
+.estimator{
+    background:linear-gradient(180deg,var(--bg2),var(--bg));
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+}
+
+.estimator-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);
+    gap:28px;
+    align-items:start;
+}
+
+.estimator-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:28px;
+}
+
+.estimator-card h3{
+    font-family:'Oswald',sans-serif;
+    font-size:1.8rem;
+    margin-bottom:18px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+}
+
+.field label{
+    display:block;
+    font-weight:600;
+    margin-bottom:7px;
+}
+
+.field input,
+.field select{
+    width:100%;
+    padding:13px 14px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:#0b1726;
+    color:var(--text);
+    font:inherit;
+}
+
+.field small{
+    display:block;
+    color:var(--muted);
+    margin-top:6px;
+}
+
+.estimator-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:22px;
+}
+
+button.btn{
+    border:0;
+    cursor:pointer;
+    font:inherit;
+}
+
+.btn-muted{
+    background:#22344d;
+    color:white;
+}
+
+.total-card{
+    position:sticky;
+    top:104px;
+}
+
+.estimate-total{
+    font-family:'Oswald',sans-serif;
+    font-size:3.3rem;
+    line-height:1;
+    color:var(--accent);
+    margin:12px 0 6px;
+}
+
+.estimate-range{
+    color:var(--muted);
+    margin-bottom:22px;
+}
+
+.breakdown{
+    display:grid;
+    gap:12px;
+}
+
+.breakdown-row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:13px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.breakdown-row:last-child{
+    border-bottom:0;
+}
+
+.breakdown-row span:first-child{
+    color:var(--muted);
+}
+
+.breakdown-row span:last-child{
+    font-weight:700;
+    text-align:right;
+}
+
+.estimate-note{
+    margin-top:22px;
+    color:var(--muted);
+    font-size:.92rem;
 }
 
 .feature-grid{
@@ -384,10 +502,6 @@ footer{
         display:flex;
     }
 
-    .nav-links.open{
-        display:flex;
-    }
-
     .nav-links a{
         padding:16px 20px;
         border-bottom:1px solid var(--border);
@@ -397,7 +511,8 @@ footer{
         border-bottom:0;
     }
 
-    .hero-grid{
+    .hero-grid,
+    .estimator-grid{
         grid-template-columns:1fr;
     }
 
@@ -409,8 +524,13 @@ footer{
         height:350px;
     }
 
-    .floorplans{
+    .floorplans,
+    .form-grid{
         grid-template-columns:1fr;
+    }
+
+    .total-card{
+        position:static;
     }
 }
 </style>
@@ -431,6 +551,7 @@ footer{
 <nav class="nav-links" id="primary-navigation">
 <a href="#inspiration">Inspiration</a>
 <a href="#floorplans">Floorplans</a>
+<a href="#estimator">Cost Estimator</a>
 <a href="#ideas">Design Ideas</a>
 <a href="#community">Submit Build</a>
 </nav>
@@ -446,10 +567,11 @@ footer{
 <p>
 Explore dream shops, garages, workshops, hangars, golf simulator buildings,
 man caves, and shop houses from across the country. Save ideas, compare layouts,
-discover floorplans, and start planning the ultimate space.
+discover floorplans, estimate costs, and start planning the ultimate space.
 </p>
 <div class="hero-buttons">
 <a href="#inspiration" class="btn btn-primary">Browse Inspiration</a>
+<a href="#estimator" class="btn btn-secondary">Estimate My Build</a>
 <a href="#floorplans" class="btn btn-secondary">View Floorplans</a>
 </div>
 </div>
@@ -500,14 +622,14 @@ discover floorplans, and start planning the ultimate space.
 <pre>
 -----------------------------------
 |                                 |
-|         MAIN SHOP              |
+|         MAIN SHOP               |
 |                                 |
 | Lift                 Lift       |
 |                                 |
-|-------------------------------|
-|      WOODSHOP                 |
-|                               |
-| Bath  Stairs   Office         |
+|-------------------------------  |
+|      WOODSHOP                   |
+|                                 |
+| Bath  Stairs   Office           |
 -----------------------------------
 </pre>
 </div>
@@ -519,10 +641,114 @@ discover floorplans, and start planning the ultimate space.
 |                                 |
 |                                 |
 |                                 |
-|--------------------------------|
-| Office  Bar  Golf Simulator    |
+|-------------------------------- |
+| Office  Bar  Golf Simulator     |
 -----------------------------------
 </pre>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section estimator" id="estimator">
+<div class="container">
+<h2 class="section-title">Build Cost Estimator</h2>
+<p class="section-sub">Start with rough planning numbers for construction, HVAC, and electrical. Adjust the assumptions to compare shell-only, insulated, and more finished shop builds.</p>
+<div class="estimator-grid">
+<form class="estimator-card" id="cost-form">
+<h3>Project Assumptions</h3>
+<div class="form-grid">
+<div class="field">
+<label for="width">Width</label>
+<input id="width" type="number" min="12" value="40">
+<small>Feet</small>
+</div>
+<div class="field">
+<label for="length">Length</label>
+<input id="length" type="number" min="12" value="60">
+<small>Feet</small>
+</div>
+<div class="field">
+<label for="wall-height">Sidewall Height</label>
+<input id="wall-height" type="number" min="8" value="16">
+<small>Feet</small>
+</div>
+<div class="field">
+<label for="finish-level">Construction Level</label>
+<select id="finish-level">
+<option value="basic">Basic shell + slab</option>
+<option value="insulated" selected>Insulated hobby shop</option>
+<option value="finished">Finished shop + office-ready</option>
+</select>
+</div>
+<div class="field">
+<label for="construction-rate">Construction $ / sq ft</label>
+<input id="construction-rate" type="number" min="1" value="35">
+<small>Shell, slab, doors, basic build allowance</small>
+</div>
+<div class="field">
+<label for="insulation-rate">Insulation $ / sq ft</label>
+<input id="insulation-rate" type="number" min="0" value="7">
+<small>Wall/roof package planning allowance</small>
+</div>
+<div class="field">
+<label for="hvac-type">HVAC Scope</label>
+<select id="hvac-type">
+<option value="none">None yet</option>
+<option value="spot">Spot heat/cool only</option>
+<option value="whole" selected>Whole-shop heat pump</option>
+<option value="premium">Whole-shop + office zone</option>
+</select>
+</div>
+<div class="field">
+<label for="hvac-rate">HVAC $ / sq ft</label>
+<input id="hvac-rate" type="number" min="0" value="6">
+<small>Installed equipment allowance</small>
+</div>
+<div class="field">
+<label for="electrical-level">Electrical Scope</label>
+<select id="electrical-level">
+<option value="basic">Basic lights + outlets</option>
+<option value="shop" selected>Shop circuits + bright lighting</option>
+<option value="heavy">Lift, welder, compressor, office</option>
+</select>
+</div>
+<div class="field">
+<label for="electrical-rate">Electrical $ / sq ft</label>
+<input id="electrical-rate" type="number" min="0" value="8">
+<small>Panel, circuits, lighting, outlets allowance</small>
+</div>
+<div class="field">
+<label for="contingency">Contingency</label>
+<input id="contingency" type="number" min="0" value="15">
+<small>Percent for unknowns and upgrades</small>
+</div>
+<div class="field">
+<label for="daily-cooling">Cooling Estimate</label>
+<input id="daily-cooling" type="number" min="0" step="0.01" value="18">
+<small>Estimated dollars to cool for one hot day</small>
+</div>
+</div>
+<div class="estimator-actions">
+<button class="btn btn-primary" type="submit">Update Estimate</button>
+<button class="btn btn-muted" id="reset-estimator" type="button">Reset 40x60 Shop</button>
+</div>
+</form>
+
+<div class="estimator-card total-card" aria-live="polite">
+<h3>Estimated Budget</h3>
+<div class="estimate-total" id="estimate-total">$0</div>
+<div class="estimate-range" id="estimate-range">Typical rough range: $0 - $0</div>
+<div class="breakdown">
+<div class="breakdown-row"><span>Building size</span><span id="size-output">2,400 sq ft</span></div>
+<div class="breakdown-row"><span>Construction</span><span id="construction-output">$0</span></div>
+<div class="breakdown-row"><span>Insulation / finish allowance</span><span id="insulation-output">$0</span></div>
+<div class="breakdown-row"><span>HVAC installed allowance</span><span id="hvac-output">$0</span></div>
+<div class="breakdown-row"><span>Electrical allowance</span><span id="electrical-output">$0</span></div>
+<div class="breakdown-row"><span>Contingency</span><span id="contingency-output">$0</span></div>
+<div class="breakdown-row"><span>One-day cooling estimate</span><span id="cooling-output">$18/day</span></div>
+</div>
+<p class="estimate-note">Planning tool only. Local bids, site work, septic/plumbing, utility runs, driveway, permits, engineering, interior build-out, and land costs can move the real number substantially.</p>
 </div>
 </div>
 </div>
@@ -571,6 +797,123 @@ if (menuCheckbox && navLinks) {
             menuCheckbox.checked = false;
         });
     });
+}
+
+const money = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+});
+
+const defaults = {
+    width: 40,
+    length: 60,
+    wallHeight: 16,
+    finishLevel: 'insulated',
+    constructionRate: 35,
+    insulationRate: 7,
+    hvacType: 'whole',
+    hvacRate: 6,
+    electricalLevel: 'shop',
+    electricalRate: 8,
+    contingency: 15,
+    dailyCooling: 18
+};
+
+const finishMultipliers = {
+    basic: .35,
+    insulated: 1,
+    finished: 1.8
+};
+
+const hvacMultipliers = {
+    none: 0,
+    spot: .35,
+    whole: 1,
+    premium: 1.45
+};
+
+const electricalMultipliers = {
+    basic: .55,
+    shop: 1,
+    heavy: 1.45
+};
+
+const fields = {
+    width: document.getElementById('width'),
+    length: document.getElementById('length'),
+    wallHeight: document.getElementById('wall-height'),
+    finishLevel: document.getElementById('finish-level'),
+    constructionRate: document.getElementById('construction-rate'),
+    insulationRate: document.getElementById('insulation-rate'),
+    hvacType: document.getElementById('hvac-type'),
+    hvacRate: document.getElementById('hvac-rate'),
+    electricalLevel: document.getElementById('electrical-level'),
+    electricalRate: document.getElementById('electrical-rate'),
+    contingency: document.getElementById('contingency'),
+    dailyCooling: document.getElementById('daily-cooling')
+};
+
+function numberValue(field, fallback){
+    const value = Number(field.value);
+    return Number.isFinite(value) ? value : fallback;
+}
+
+function calculateEstimate(){
+    const width = numberValue(fields.width, defaults.width);
+    const length = numberValue(fields.length, defaults.length);
+    const area = width * length;
+    const construction = area * numberValue(fields.constructionRate, defaults.constructionRate);
+    const insulation = area * numberValue(fields.insulationRate, defaults.insulationRate) * finishMultipliers[fields.finishLevel.value];
+    const hvac = area * numberValue(fields.hvacRate, defaults.hvacRate) * hvacMultipliers[fields.hvacType.value];
+    const electrical = area * numberValue(fields.electricalRate, defaults.electricalRate) * electricalMultipliers[fields.electricalLevel.value];
+    const subtotal = construction + insulation + hvac + electrical;
+    const contingency = subtotal * (numberValue(fields.contingency, defaults.contingency) / 100);
+    const total = subtotal + contingency;
+    const low = total * .85;
+    const high = total * 1.25;
+
+    document.getElementById('estimate-total').textContent = money.format(total);
+    document.getElementById('estimate-range').textContent = `Typical rough range: ${money.format(low)} - ${money.format(high)}`;
+    document.getElementById('size-output').textContent = `${area.toLocaleString()} sq ft`;
+    document.getElementById('construction-output').textContent = money.format(construction);
+    document.getElementById('insulation-output').textContent = money.format(insulation);
+    document.getElementById('hvac-output').textContent = money.format(hvac);
+    document.getElementById('electrical-output').textContent = money.format(electrical);
+    document.getElementById('contingency-output').textContent = money.format(contingency);
+    document.getElementById('cooling-output').textContent = `${money.format(numberValue(fields.dailyCooling, defaults.dailyCooling))}/day`;
+}
+
+function resetEstimator(){
+    fields.width.value = defaults.width;
+    fields.length.value = defaults.length;
+    fields.wallHeight.value = defaults.wallHeight;
+    fields.finishLevel.value = defaults.finishLevel;
+    fields.constructionRate.value = defaults.constructionRate;
+    fields.insulationRate.value = defaults.insulationRate;
+    fields.hvacType.value = defaults.hvacType;
+    fields.hvacRate.value = defaults.hvacRate;
+    fields.electricalLevel.value = defaults.electricalLevel;
+    fields.electricalRate.value = defaults.electricalRate;
+    fields.contingency.value = defaults.contingency;
+    fields.dailyCooling.value = defaults.dailyCooling;
+    calculateEstimate();
+}
+
+const estimatorForm = document.getElementById('cost-form');
+if (estimatorForm) {
+    estimatorForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        calculateEstimate();
+    });
+
+    Object.values(fields).forEach((field) => {
+        field.addEventListener('input', calculateEstimate);
+        field.addEventListener('change', calculateEstimate);
+    });
+
+    document.getElementById('reset-estimator').addEventListener('click', resetEstimator);
+    calculateEstimate();
 }
 </script>
 
