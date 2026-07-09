@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="app">
-  <div class="top"><b class="brand">GARAGE DREAMING</b><span id="status" class="pill"></span><button id="viewBtn" onclick="toggle3d()">3D</button><div class="spacer"></div><button onclick="resetView()">Reset</button><button id="menuBtn" onclick="toggleMenu(event)">Menu</button><div id="menu" class="menu"><button onclick="menuClose();openSheet('shop')">Shop Setup</button><button onclick="menuClose();openSheet('cost')">Cost Estimate</button><button onclick="menuClose();openSheet('save')">Save / Export</button><a href="index.html">Home / Inspiration</a></div></div>
+  <div class="top"><b class="brand">GARAGE DREAMING</b><a class="button secondary" href="index.html">Home</a><span id="status" class="pill"></span><button id="viewBtn" onclick="toggle3d()">3D</button><div class="spacer"></div><button onclick="resetView()">Reset</button><button id="menuBtn" onclick="toggleMenu(event)">Menu</button><div id="menu" class="menu"><button onclick="menuClose();openSheet('shop')">Shop Setup</button><button onclick="menuClose();openSheet('cost')">Cost Estimate</button><button onclick="menuClose();openSheet('save')">Save / Export</button><a href="index.html">Home / Inspiration</a></div></div>
   <aside id="side" class="side"></aside>
   <main id="wrap" class="wrap"><canvas id="cv"></canvas><button class="fab" onclick="openSheet('add')">+</button><div class="zoom"><button onclick="zoomIn()">+</button><button onclick="zoomOut()">−</button></div></main>
 </div>
